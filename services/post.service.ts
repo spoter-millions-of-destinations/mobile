@@ -12,6 +12,8 @@ export type Post = {
     createdAt: string;
     updatedAt: string;
     user: Pick<User, "id" | "name" | "avatar">;
+    likes: number;
+    comments: number;
     attraction: {
         id: number;
         name: string;

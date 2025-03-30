@@ -13,6 +13,9 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
 import { fonts } from "@/assets/fonts/fonts";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import AppNavigation from "@/navigations/AppNavigation";
+import { UserProvider } from "@/context/AuthContext";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -34,18 +37,15 @@ export default function RootLayout() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <ThemeProvider
-                value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-            >
-                <Stack>
-                    <Stack.Screen
-                        name="(tabs)"
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen name="+not-found" />
-                </Stack>
-                <StatusBar style="auto" />
-            </ThemeProvider>
+            <GestureHandlerRootView className="flex-1">
+                <ThemeProvider
+                    value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+                >
+                    <UserProvider>
+                        <AppNavigation />
+                    </UserProvider>
+                </ThemeProvider>
+            </GestureHandlerRootView>
         </QueryClientProvider>
     );
 }

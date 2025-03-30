@@ -2,43 +2,37 @@ import React, { useContext, useState } from "react";
 import { Image, Text, View } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
-
+import { FontAwesome } from "@expo/vector-icons";
 import { Lock, User } from "iconsax-react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import authService, { Auth } from "@/services/auth.service";
+import { setDataStorage } from "@/helpers/storage";
+import { UserContext } from "@/context/AuthContext";
+import InputComponent from "@/components/InputComponent";
+import { color } from "@/constants/Colors";
+import { useMutation, useQueries } from "@tanstack/react-query";
 
 const LoginScreen = () => {
-    const [show, setShow] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [userInfo, setUserInfo] = useState<{
-        username: string;
-        password: string;
-    }>({
+    const [userInfo, setUserInfo] = useState<
+        Pick<Auth, "username" | "password">
+    >({
         username: "",
         password: "",
     });
     const navigation = useNavigation();
-    const { updateUser } = useContext(UserContext);
-
-    const handleLogin = async () => {
-        try {
-            setIsLoading(true);
-            const data = {
-                username: userInfo.username.toLowerCase().trim(),
-                password: userInfo.password,
-            };
-            console.log(data);
-            const response = await authService.login(
-                userInfo.username.toLowerCase(),
-                userInfo.password
-            );
-            console.log(response);
+    const { mutate: login, isPending } = useMutation({
+        mutationFn: () => authService.login(userInfo),
+        onSuccess: async (response) => {
             await setDataStorage("account", response.data);
             navigation.navigate("in-app", { screen: "NewFeedScreen" });
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setIsLoading(false);
-        }
+            // Add navigation here if needed
+        },
+        onError: (error) => {
+            console.error("Login failed:", error);
+        },
+    });
+    const handleLogin = () => {
+        login();
     };
 
     return (
@@ -78,7 +72,7 @@ const LoginScreen = () => {
                         className="mb-7 w-full rounded-xl py-5 "
                     >
                         <Text className="text-center text-white text-base font-medium font-['Montserrat']">
-                            Sign in
+                            {isPending ? "Signing in..." : "Sign in"}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -90,18 +84,26 @@ const LoginScreen = () => {
                 </View>
 
                 <View className="flex-row gap-x-3 justify-center mb-[150]">
-                    <View>
-                        <Facebook />
-                    </View>
-                    <View>
-                        <Google />
-                    </View>
-                    <View>
-                        <Apple />
-                    </View>
-                    <View>
-                        <WhatsApp />
-                    </View>
+                    <TouchableOpacity>
+                        <FontAwesome
+                            name="facebook"
+                            size={30}
+                            color="#3b5998"
+                        />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <FontAwesome name="google" size={30} color="#db4437" />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <FontAwesome name="apple" size={30} color="#000000" />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <FontAwesome
+                            name="whatsapp"
+                            size={30}
+                            color="#25D366"
+                        />
+                    </TouchableOpacity>
                 </View>
 
                 <Text

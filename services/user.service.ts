@@ -3,7 +3,7 @@
 import axiosClient from "./axiosClient";
 
 export type User = {
-    id: string;
+    id: number;
     email: string;
     name: string;
     username: string;
