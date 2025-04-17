@@ -36,7 +36,7 @@ const NotificationComponent = ({ modalVisible, setModalVisible }) => {
                 </View>
                 <Text className="font-['Montserrat'] font-500 text-xl">+1</Text>
                 <ImageBackground
-                    source={require("../../assets/img/token.jpg")}
+                    source={require("@/assets/images/token.jpg")}
                     className="flex-row items-center justify-center w-[50] h-[50] "
                 ></ImageBackground>
             </TouchableOpacity>

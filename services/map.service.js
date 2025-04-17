@@ -1,6 +1,6 @@
 // authService.js
 import axios from "axios";
-import axiosClient from "../configs/axiosClient";
+import axiosClient from "./axiosClient";
 
 const mapService = {
     findLocationByName: async (name) => {

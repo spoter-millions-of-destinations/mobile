@@ -1,45 +1,91 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from 'expo-router'
+import React from 'react'
+import { StyleSheet, View } from 'react-native'
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { color } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import Camera from '@/app/(tabs)/camera/camera'
+import { color } from '@/constants/Colors'
+import { Ionicons } from '@expo/vector-icons'
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function TabsLayout() {
+    return (
+        <Tabs
+            screenOptions={{
+                headerShown: false,
+                tabBarActiveTintColor: '#0c4a6e',
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: color.primary,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+                tabBarStyle: {
+                    backgroundColor: '#FFFFFF', // NativeWind không áp dụng được trực tiếp cho tabBarStyle, cần giữ style object
+                    borderTopWidth: 0,
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    paddingTop: 5,
+                    paddingBottom: 40,
+
+                    position: 'absolute',
+                    bottom: -30,
+                    left: 0,
+                    right: 0,
+                    height: 70,
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: -2 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.5,
+                    elevation: 5,
+                },
+                tabBarLabelStyle: {
+                    fontSize: 12,
+                    fontWeight: '500',
+                },
+            }}
+        >
+            <Tabs.Screen
+                name="feed"
+                options={{
+                    title: 'Feed',
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <Ionicons name={focused ? 'home' : 'home-outline'} size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="suggest"
+                options={{
+                    title: 'Suggest',
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <Ionicons name={focused ? 'search' : 'search-outline'} size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="camera"
+                options={{
+                    title: '',
+                    tabBarIcon: ({ focused }) => (
+                        <View className="w-[52px] h-[47px] left-0 bg-sky-900 rounded-[22px] flex-row items-center justify-center">
+                            <Ionicons name={focused ? 'camera' : 'camera-outline'} size={32} color="#FFFFFF" />
+                        </View>
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="challenge"
+                options={{
+                    title: 'Challenge',
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <Ionicons name={focused ? 'trophy' : 'trophy-outline'} size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: 'Profile',
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <Ionicons name={focused ? 'person' : 'person-outline'} size={size} color={color} />
+                    ),
+                }}
+            />
+        </Tabs>
+    )
 }

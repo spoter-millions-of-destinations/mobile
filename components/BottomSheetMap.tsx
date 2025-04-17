@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
 import React, { useCallback, useRef } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { BackLeftToRight } from "../../assets/img/Button";
+import { BackLeftToRight } from "@/assets/images/Button";
 import Rating from "./Rating";
 import UserInfo from "./UserInfo";
 

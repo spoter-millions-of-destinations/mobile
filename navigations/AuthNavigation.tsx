@@ -1,8 +1,8 @@
 
-import LoginScreen from "@/pages/Auth/Login/Login";
-import Register from "@/pages/Auth/Register/Register";
-import SuccessScreen from "@/pages/Auth/Register/SuccessScreen";
-import StartScreen from "@/pages/Auth/StartScreen";
+import LoginScreen from "@/app/(tabs)/Auth/Login";
+import StartScreen from "@/app/auth/StartScreen";
+import SuccessScreen from "@/app/auth/SuccessScreen";
+import Register from "@/pages/InApp/Register/Register";
 import { createStackNavigator } from "@react-navigation/stack";
 
 

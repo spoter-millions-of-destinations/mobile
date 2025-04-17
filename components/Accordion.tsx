@@ -14,7 +14,7 @@ import {
     Checked,
     CropPhoto,
     Unchecked,
-} from "../../assets/img/Button";
+} from "@/assets/images/Button";
 import Rating from "./Rating";
 const Form = ({ title, description, checked, icon }) => {
     const [isChecked, setIsChecked] = useState(false);

@@ -2,11 +2,11 @@ import Slider from "@react-native-community/slider";
 import { Image } from "expo-image";
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import AutocompleteInput from "react-native-autocomplete-input";
+
 import Collapsible from "react-native-collapsible";
 import RadioGroup from "react-native-radio-buttons-group";
-import { ArrowDown, ArrowRightToLeft } from "../../assets/img/Button";
-import _countries from "../../data/contries";
+import { ArrowDown, ArrowRightToLeft } from "@/assets/images/Button";
+import _countries from "@/data/contries";
 import Rating from "./Rating";
 
 const AccordionItem = ({ title, content, icon, description, border }) => {

@@ -1,18 +1,18 @@
-import dayjs from "dayjs";
-import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { timeElapsed } from "../../helpers/timeElapsed";
+import { calculateTime } from '@/helpers/time'
+import React from 'react'
+import { Image, StyleSheet, Text, View } from 'react-native'
+
 type UserInfoProps = {
-    userImage?: string;
-    postTime?: string;
-    userName: string;
-    textDark?: boolean;
-    disableAdd?: boolean;
-    style?: any;
-    isSponser?: boolean;
-};
+    userImage?: string
+    postTime?: string
+    userName: string
+    textDark?: boolean
+    disableAdd?: boolean
+    style?: any
+    isSponser?: boolean
+}
 const UserInfo = ({
-    userImage = "https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg",
+    userImage = 'https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg',
 
     postTime,
     userName,
@@ -30,40 +30,35 @@ const UserInfo = ({
         },
 
         userName: {
-            color: textDark ? "black" : "white",
-            textShadowColor: !textDark ? "rgba(0, 0, 0, 0.60)" : undefined,
+            color: textDark ? 'black' : 'white',
+            textShadowColor: !textDark ? 'rgba(0, 0, 0, 0.60)' : undefined,
             textShadowOffset: !textDark ? { width: 0, height: 2 } : undefined,
             textShadowRadius: !textDark ? 4 : undefined,
         },
         postTime: {
             letterSpacing: 0.5,
-            color: textDark ? "black" : "white",
-            textShadowColor: !textDark ? "rgba(0, 0, 0, 0.60)" : undefined,
+            color: textDark ? 'black' : 'white',
+            textShadowColor: !textDark ? 'rgba(0, 0, 0, 0.60)' : undefined,
             textShadowOffset: !textDark ? { width: 0, height: 2 } : undefined,
             textShadowRadius: !textDark ? 4 : undefined,
         },
         follow: {
-            position: "absolute",
+            position: 'absolute',
             top: 28,
             left: 28,
         },
-    });
+    })
     return (
         <View className="relative flex-row items-center" style={style}>
             <Image
                 source={{
                     uri:
                         userImage ||
-                        "https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg",
+                        'https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg',
                 }}
                 style={styles.userImage}
             />
-            {!disableAdd && (
-                <Image
-                    source={require("../../assets/img/follow-icon.png")}
-                    style={styles.follow}
-                />
-            )}
+            {!disableAdd && <Image source={require('@/assets/images/follow-icon.png')} style={styles.follow} />}
             <View>
                 <Text
                     style={styles.userName}
@@ -72,16 +67,13 @@ const UserInfo = ({
                     {userName}
                 </Text>
                 {postTime && (
-                    <Text
-                        style={styles.postTime}
-                        className="text-[11px] font-['Montserrat']"
-                    >
-                        {isSponser ? "Sponsered" : timeElapsed(postTime)}
+                    <Text style={styles.postTime} className="text-[11px] font-['Montserrat']">
+                        {isSponser ? 'Sponsered' : calculateTime(postTime)}
                     </Text>
                 )}
             </View>
         </View>
-    );
-};
+    )
+}
 
-export default UserInfo;
+export default UserInfo

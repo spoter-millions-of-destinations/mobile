@@ -1,51 +1,48 @@
-import {
-    DarkTheme,
-    DefaultTheme,
-    ThemeProvider,
-} from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
-import "react-native-reanimated";
+import { useFonts } from 'expo-font'
 
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
-import { fonts } from "@/assets/fonts/fonts";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import AppNavigation from "@/navigations/AppNavigation";
-import { UserProvider } from "@/context/AuthContext";
+import '@/global.css'
+import * as SplashScreen from 'expo-splash-screen'
+import { useEffect } from 'react'
+import 'react-native-reanimated'
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { QueryClientProvider } from '@tanstack/react-query'
+
+import { UserProvider } from '@/context/AuthContext'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+
+import { fonts } from '@/assets/fonts/fonts'
+import { QueryClient } from '@tanstack/react-query'
+import { Slot } from 'expo-router'
+import { Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
+
+const queryClient = new QueryClient()
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-    const queryClient = useQueryClient();
-    const colorScheme = useColorScheme();
-    const [loaded] = useFonts(fonts);
+    const [loaded] = useFonts(fonts)
 
     useEffect(() => {
         if (loaded) {
-            SplashScreen.hideAsync();
+            SplashScreen.hideAsync()
         }
-    }, [loaded]);
+    }, [loaded])
 
     if (!loaded) {
-        return null;
+        return null
     }
 
     return (
         <QueryClientProvider client={queryClient}>
             <GestureHandlerRootView className="flex-1">
-                <ThemeProvider
-                    value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-                >
-                    <UserProvider>
-                        <AppNavigation />
-                    </UserProvider>
-                </ThemeProvider>
+                <UserProvider>
+                    <SafeAreaView className="flex-1">
+                        <Slot />
+                    </SafeAreaView>
+                    <Toast position="top" />
+                </UserProvider>
             </GestureHandlerRootView>
         </QueryClientProvider>
-    );
+    )
 }

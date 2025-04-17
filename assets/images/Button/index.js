@@ -1,5 +1,5 @@
 import AddPhoto from "./add-photo.svg";
-import Back from "./back.svg";
+import Back from "./Back.svg";
 import Camera from "./camera.svg";
 import Flash from "./flash.svg";
 import KinhLup from "./kinhlup.svg";

@@ -1,8 +1,8 @@
 import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Challenge from "@/pages/InApp/Challenge/Challenge";
-import DetailChanllenge from "@/pages/InApp/Challenge/DetailChanllenge";
+import Challenge from "@/app/(tabs)/challenge";
+import DetailChanllenge from "@/app/(tabs)/challenge/[id]";
 
 
 const Stack = createNativeStackNavigator();

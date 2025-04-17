@@ -1,8 +1,8 @@
 import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Camera from "../pages/InApp/Camera/Camera";
-import CreatePostScreen from "../pages/InApp/Camera/CreatePostScreen";
+import Camera from "../app/(tabs)/camera/camera";
+import CreatePostScreen from "../app/(tabs)/camera/create-post-screen";
 
 const Stack = createNativeStackNavigator();
 

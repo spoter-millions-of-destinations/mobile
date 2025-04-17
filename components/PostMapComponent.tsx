@@ -5,9 +5,9 @@ import { Text, TouchableOpacity, View } from "react-native";
 import UserInfo from "./UserInfo";
 
 import { useNavigation } from "@react-navigation/native";
-import { BackLeftToRight, Comment, Save, Star2 } from "../../assets/img/Button";
+import { BackLeftToRight, Comment, Save, Star2 } from "@/assets/images/Button";
 import { Ionicons } from "@expo/vector-icons";
-import StartScreen from "../pages/Auth/StartScreen";
+
 
 const PostMapComponent = ({ data }) => {
     const { id, user, createdAt, description, images, rate } = data;

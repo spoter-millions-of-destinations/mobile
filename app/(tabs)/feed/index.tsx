@@ -1,0 +1,87 @@
+import React from 'react'
+
+import { Ionicons } from '@expo/vector-icons'
+
+import { TouchableOpacity, View } from 'react-native'
+
+import postService, { Post } from '@/services/post.service'
+import { NewPostLogo } from '@/assets/images/Button'
+import { color } from '@/constants/Colors'
+import { FlashList } from '@shopify/flash-list'
+import { ContainerComponent, Loading, NotificationComponent } from '@/components'
+import PostCard from '@/app/(tabs)/feed/components/PostCard'
+import { Link } from 'expo-router'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+
+const NewFeed = () => {
+    const [modalVisible, setModalVisible] = React.useState(false)
+    const {
+        data: posts,
+        isLoading,
+        isFetching,
+        fetchNextPage,
+        hasNextPage,
+    } = useInfiniteQuery({
+        queryKey: ['posts'],
+        staleTime: 1000 * 60 * 5,
+        initialPageParam: 0,
+        queryFn: async ({ pageParam }) => {
+            const data = await postService.getAllFeed(4, pageParam)
+            return data
+        },
+        getNextPageParam: (lastPage, allPages) => {
+            const nextPage = allPages.length * 4
+            if (lastPage.length < 4) {
+                return undefined
+            }
+            return nextPage
+        },
+    })
+
+    const handleEndReached = () => {
+        if (!isFetching && hasNextPage) {
+            fetchNextPage()
+        }
+    }
+    const flatPosts = posts?.pages.flatMap((page) => page) ?? []
+
+    return (
+        <View className="flex-1 bg-white">
+            <View className="px-6 py-1 flex-row justify-between items-center">
+                <NewPostLogo />
+                <View className="flex-row items-centers gap-x-4">
+                    <TouchableOpacity>
+                        <Link href="/(share)/notification">
+                            <Ionicons name="notifications-outline" size={24} color={color.primary} />
+                        </Link>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Link href="/(share)/map">
+                            <Ionicons name="map-outline" size={24} color={color.primary} />
+                        </Link>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            {isLoading ? (
+                <View className="w-full h-full flew-col flex-1 justify-center items-center">
+                    <Loading />
+                </View>
+            ) : (
+                <ContainerComponent>
+                    <FlashList
+                        showsVerticalScrollIndicator={false}
+                        data={flatPosts}
+                        renderItem={({ item }: { item: Post }) => <PostCard post={item} />}
+                        estimatedItemSize={200} // Ước lượng kích thước mỗi PostCard (tùy chỉnh theo UI)
+                        onEndReached={handleEndReached}
+                        onEndReachedThreshold={0.5} // Kích hoạt khi cuộn đến 50% cuối danh sách
+                        ListFooterComponent={isFetching ? <Loading /> : null}
+                    />
+                    <NotificationComponent setModalVisible={setModalVisible} modalVisible={modalVisible} />
+                </ContainerComponent>
+            )}
+        </View>
+    )
+}
+
+export default NewFeed

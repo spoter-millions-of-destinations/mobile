@@ -2,8 +2,8 @@ import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import React from "react";
 import { FlashList } from "@shopify/flash-list";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import collectionService from "../../../services/collection.service";
-import { BackRightToLeft } from "../../../assets/img/Button";
+import collectionService from "@/services/collection.service";
+import { BackRightToLeft } from "@/assets/images/Button";
 import { Image } from "expo-image";
 import ContainerComponent from "../../components/ContainerComponent";
 

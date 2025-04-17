@@ -1,5 +1,7 @@
 // authService.js
-import axiosClient from "../configs/axiosClient";
+
+import axiosClient from "./axiosClient";
+
 
 const stripeService = {
     CheckoutSession: async (id) =>

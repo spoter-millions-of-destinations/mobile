@@ -7,11 +7,11 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { Delete, Filter } from "../../assets/img/Button";
+import { Delete, Filter } from "@/assets/images/Button";
 import FloatingButtonComponent from "./FloatingButtonComponent";
 
 import { Image } from "expo-image";
-import _maps from "../../data/map";
+import _maps from "@/data/map";
 
 const SelectMapModal = ({ urlMap, setUrlMap }) => {
     const [modalVisible, setModalVisible] = useState(false);

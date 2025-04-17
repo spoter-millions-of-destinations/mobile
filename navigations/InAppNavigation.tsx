@@ -1,9 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 
-
-
-
 import CameraNavigation from "./CameraNavigation";
 import FeedNavigation from "./FeedNavigation";
 
@@ -13,12 +10,13 @@ import { View } from "react-native";
 import ChallengeNavigation from "./ChallengeNavigation";
 import SuggestNavigation from "./SuggestNavigation";
 import { useNavigation } from "@react-navigation/native";
-import ProfileNavigation from './ProfileNavigation';
+import ProfileNavigation from "./ProfileNavigation";
 import { UserContext } from "@/context/AuthContext";
 import userService from "@/services/user.service";
-import Camera from "@/pages/InApp/Camera/Camera";
+import Camera from "@/app/(tabs)/camera/camera";
 import { color } from "@/constants/Colors";
 import { NewFeedIcon, SuggestIcon } from "@/assets/images/Button";
+import { CameraSlash } from "iconsax-react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -41,14 +39,14 @@ const TabArr = [
     {
         route: "camera",
         label: "Camera",
-        icon: CameraIcon,
+        icon: CameraSlash,
         component: CameraNavigation,
         badge: false,
     },
     {
         route: "challenge",
         label: "Challenge",
-        icon: ChallengeIcon,
+        icon: CameraSlash,
         component: ChallengeNavigation,
 
         badge: true,
@@ -56,7 +54,7 @@ const TabArr = [
     {
         route: "my-profile",
         label: "Profile",
-        icon: ProfileIcon,
+        icon: CameraSlash,
         component: ProfileNavigation,
     },
 ];

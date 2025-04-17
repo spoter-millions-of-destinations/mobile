@@ -1,10 +1,10 @@
 import { Text, TouchableOpacity, View } from "react-native";
-import { BackLeftToRight } from "../../assets/img/Button";
+import { BackLeftToRight } from "@/assets/images/Button";
 
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 
-export default Collection = ({ data, onPress }) => {
+export const Collection = ({ data, onPress }) => {
     const navigation = useNavigation();
 
     return (

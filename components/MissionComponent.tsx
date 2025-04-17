@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { Image, ImageBackground } from "expo-image";
-import { Pin } from "../../assets/img/Button";
+import { Pin } from "@/assets/images/Button";
 import { useNavigation } from "@react-navigation/native";
 
 const MissionComponent = ({ info }) => {
@@ -39,7 +39,7 @@ const MissionComponent = ({ info }) => {
                 </View>
             </View>
             <ImageBackground
-                source={require("../../assets/img/process.jpg")}
+                source={require("@/assets/images/process.jpg")}
                 className="flex-row items-center justify-center w-[30] h-[30] absolute bottom-2 right-2"
             >
                 <Text className="text-sky-800 text-[8px] font-normal font-['Montserrat']">
