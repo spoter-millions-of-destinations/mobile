@@ -25,8 +25,8 @@ export type Post = {
         district: string
         city: string
         country: string
-        longitude: string
-        latitude: string
+        longitude: string | number
+        latitude: string | number
         createdAt: string
         updatedAt: string
     }

@@ -2,37 +2,36 @@ import { Tabs } from 'expo-router'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import Camera from '@/app/(tabs)/camera/camera'
+import Camera from '@/app/(tabs)/camera'
 import { color } from '@/constants/Colors'
 import { Ionicons } from '@expo/vector-icons'
+export const tabBarStyle = {
+    backgroundColor: '#FFFFFF', // NativeWind không áp dụng được trực tiếp cho tabBarStyle, cần giữ style object
+    borderTopWidth: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingTop: 5,
+    paddingBottom: 40,
 
+    position: "absolute",
+    bottom: -30,
+    left: 0,
+    right: 0,
+    height: 70,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    elevation: 5,
+}
 export default function TabsLayout() {
     return (
         <Tabs
             screenOptions={{
                 headerShown: false,
                 tabBarActiveTintColor: '#0c4a6e',
-
-                tabBarStyle: {
-                    backgroundColor: '#FFFFFF', // NativeWind không áp dụng được trực tiếp cho tabBarStyle, cần giữ style object
-                    borderTopWidth: 0,
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    paddingTop: 5,
-                    paddingBottom: 40,
-
-                    position: 'absolute',
-                    bottom: -30,
-                    left: 0,
-                    right: 0,
-                    height: 70,
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: -2 },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 3.5,
-                    elevation: 5,
-                },
+                tabBarStyle: tabBarStyle,
                 tabBarLabelStyle: {
                     fontSize: 12,
                     fontWeight: '500',

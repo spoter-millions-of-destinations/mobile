@@ -1,78 +1,91 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import dayjs from "dayjs";
-import { Image } from "expo-image";
-import React, { useState } from "react";
-import {
-    Dimensions,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from "react-native";
-
-
-
-
-
-const { width } = Dimensions.get("screen");
-import * as Location from "expo-location";
-import { UserContext } from "@/context/AuthContext";
-import ContainerComponent from "@/components/ContainerComponent";
-import { Delete } from "@/assets/images/Button";
-import UserInfo from "@/components/UserInfo";
-import Accordion from "@/components/Accordion";
+import { Delete } from '@/assets/images/Button'
+import Accordion from '@/app/(tabs)/camera/components/Accordion'
+import ContainerComponent from '@/components/ContainerComponent'
+import UserInfo from '@/components/UserInfo'
+import { color } from '@/constants/Colors'
+import { UserContext } from '@/context/AuthContext'
+import { usePostStore } from '@/store/usePostStore'
+import { Image } from 'expo-image'
+import { router } from 'expo-router'
+import React, { useState } from 'react'
+import { Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { useHideBottonTab } from '@/hooks'
+import fileService from '@/services/file.service'
+import postService from '@/services/post.service'
+import { requestForegroundPermissionsAsync, getCurrentPositionAsync } from 'expo-location'
+import { scheduleNotificationAsync } from 'expo-notifications'
+import Toast from 'react-native-toast-message'
 
 const CreatePostScreen = () => {
-    const route = useRoute();
-    const images = route.params.image;
-    const [caption, setCaption] = useState("");
-    const { user } = React.useContext(UserContext);
-    const navigation = useNavigation();
+    const [caption, setCaption] = useState('')
+    const { user } = React.useContext(UserContext)
+    const postStore = usePostStore()
+    useHideBottonTab()
     const handleCreatePost = async () => {
         try {
-            navigation.goBack();
-            navigation.navigate("new-feed", {
-                screen: "posts",
-                params: {
-                    isPostSuccess: true,
+            Toast.show({
+                type: 'info',
+                text1: 'Thông báo bài viết 🎉',
+                text2: 'Bài viết của bạn đang được đăng!',
+                position: 'top',
+                visibilityTime: 2000,
+                autoHide: true,
+            })
+            router.navigate('/(tabs)/feed')
+            if (!postStore.image) {
+                return
+            }
+            const imageUrl = await fileService.uploadFile(postStore.image)
+            const { status } = await requestForegroundPermissionsAsync()
+            if (status !== 'granted') {
+                console.warn('Permission to access location was denied')
+                return
+            }
+            let location = await getCurrentPositionAsync({})
+            const data = {
+                description: caption.length > 0 ? caption : ' ',
+                images: [imageUrl],
+                longitude: location.coords.longitude,
+                latitude: location.coords.latitude,
+                rate: 5,
+            }
+
+            await postService.createPost(data)
+            await scheduleNotificationAsync({
+                content: {
+                    title: 'Đăng bài thành công 🎉',
+                    body: 'Bài viết của bạn đã được chia sẻ!',
                 },
-            });
-
-            // const imageUrl = await fileService.uploadFile(images);
-
-            // let location = await Location.getCurrentPositionAsync({});
-            // const data = {
-            //     description: caption.length > 0 ? caption : " ",
-            //     images: [imageUrl],
-            //     longitude: location.coords.longitude,
-            //     latitude: location.coords.latitude,
-            //     rate: 5,
-            // };
-
-            // await feedService.createPost(data);
+                trigger: null,
+            })
+            Toast.show({
+                type: 'success',
+                text1: 'Đăng bài thành công 🎉',
+                text2: 'Bài viết của bạn đã được chia sẻ!',
+                position: 'top',
+                visibilityTime: 2000,
+                autoHide: true,
+            })
+            postStore.clear()
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
-
-        // const res = await feedService.createPost(data);
-    };
+    }
 
     return (
         <ContainerComponent>
-            <View className="flex-row justify-between py-5">
+            <View className="flex-row justify-between py-5 rounded-3xl overflow-hidden ">
                 <View className="flex-row gap-x-4 items-center">
                     <TouchableOpacity
                         className="flex-row items-center justify-center"
-                        onPress={() => navigation.goBack("take-photo")}
+                        onPress={() => {
+                            postStore.clear()
+                            router.back()
+                        }}
                     >
                         <Delete />
                     </TouchableOpacity>
-                    <Text className="text-neutral-900 text-base leading-[18px]">
-                        Create a postasdasd
-                    </Text>
+                    <Text className="text-neutral-900 text-base leading-[18px]">Create a post</Text>
                 </View>
 
                 <TouchableOpacity onPress={handleCreatePost}>
@@ -89,47 +102,32 @@ const CreatePostScreen = () => {
             <ScrollView>
                 <View className="flex-col justify-between flex-1">
                     <View className="flex-1">
-                        <UserInfo
-                            disableAdd={true}
-                            userName={user.name}
-                            textDark={true}
-                            userImage={user.avatar}
-                        />
+                        <UserInfo disableAdd={true} userName={user!.name} textDark={true} userImage={user!.avatar} />
                         <TextInput
                             multiline
                             value={caption}
-                            className="flex-wrap w-[344px] text-neutral-600 text-xs font-normal font-['Montserrat'] leading-[14px] mb-3 mt-4"
+                            className="flex-wrap w-[344px] text-neutral-600 text-[14px] font-normal font-['Montserrat'] leading-6 mb-3 min-h-[50px]"
                             placeholder="Add a description..."
-                            placeholderTextColor={"#525252"}
+                            placeholderTextColor={'#525252'}
                             onChangeText={setCaption}
                         />
-                        <View
-                            className="rounded-[15px] shadow overflow-hidden"
-                            style={{
-                                height: width,
-                                width: "100%",
-                                borderRadius: 15,
-                            }}
-                        >
+                        <View className="rounded-2xl shadow-[0px_2px_20px_0px_rgba(0,0,0,0.25)] items-center flex-row justify-center w-full">
                             <Image
-                                source={images.uri}
+                                source={{ uri: postStore.image?.uri }}
                                 style={{
-                                    height: width,
-                                    width: "100%",
-                                    borderRadius: 15,
+                                    borderRadius: 16,
+                                    width: '100%',
+                                    aspectRatio: 1,
                                 }}
-                                className="rounded-[15px] overflow-hidden"
-                                containFit="contain"
+                                contentFit="cover"
                             />
                         </View>
                     </View>
                 </View>
             </ScrollView>
-            <Accordion images={images} />
+            <Accordion />
         </ContainerComponent>
-    );
-};
+    )
+}
 
-const styles = StyleSheet.create({});
-
-export default CreatePostScreen;
+export default CreatePostScreen

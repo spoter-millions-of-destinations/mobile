@@ -1,4 +1,4 @@
-export { default as Accordion } from './Accordion'
+export { default as Accordion } from '../app/(tabs)/camera/components/Accordion'
 export { AccordionItem } from './AccordionItem'
 export { default as BottomSheetMap } from './BottomSheetMap'
 export { default as Checkbox } from './Checkbox'

@@ -1,3 +1,4 @@
+import { useHideBottonTab } from '@/hooks'
 import { Stack } from 'expo-router'
 
 export default function CameraLayout() {
@@ -7,8 +8,17 @@ export default function CameraLayout() {
                 headerShown: false,
             }}
         >
-            <Stack.Screen name="camera" options={{ title: 'Camera' }} />
-            <Stack.Screen name="create-post-screen" options={{ title: 'Create Post' }} />
+            <Stack.Screen name="index" options={{}} />
+            <Stack.Screen
+                name="create-post-screen"
+                options={{
+                    headerShown: false,
+                    presentation: 'formSheet',
+                    sheetAllowedDetents: 'fitToContents',
+                    sheetCornerRadius: 30,
+                    sheetGrabberVisible: true,
+                }}
+            />
         </Stack>
     )
 }
