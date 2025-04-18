@@ -28,8 +28,7 @@ export const UserProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
             try {
                 const data = await userService.getMyInfo()
                 setUser(data)
-                //router.replace('/(tabs)/feed')
-                router.replace('/auth/StartScreen')
+                router.replace('/(tabs)/feed')
             } catch (err) {
                 console.log('Chưa login, chuyển hướng tới /auth/login')
                 router.replace('/auth/login')

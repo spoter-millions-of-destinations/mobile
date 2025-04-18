@@ -22,20 +22,21 @@ import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import CommentComponent from './components/Comment'
 import Loading from '../../../components/Loading'
+import { useHideBottonTab } from '@/hooks'
+
 export const unstable_settings = {
     // Ẩn tab bar khi vào trang này
     tabBarStyle: { display: 'none' },
 }
 
 const DetailPostScreen = () => {
-    const navigation = useNavigation()
     const data = useLocalSearchParams()
     const post = JSON.parse(data.post as string)
     const { id, user, createdAt, images, description } = post
 
     const [commentText, setCommentText] = useState('')
     const [liked, setLiked] = useState(false)
-
+    useHideBottonTab()
     const { data: comments, isLoading } = useQuery({
         queryKey: ['comments', id],
         queryFn: async () => {
@@ -47,6 +48,7 @@ const DetailPostScreen = () => {
     const toggleLike = () => {
         setLiked(!liked)
     }
+
     const queryClient = useQueryClient()
     const createComment = async () => {
         try {
@@ -61,18 +63,6 @@ const DetailPostScreen = () => {
         }
     }
 
-    useLayoutEffect(() => {
-        const parent = navigation.getParent()
-        parent?.setOptions({
-            tabBarStyle: { display: 'none' },
-        })
-
-        return () => {
-            parent?.setOptions({
-                tabBarStyle: undefined, // reset lại
-            })
-        }
-    }, [navigation])
     return (
         <SafeAreaView className="flex-1 bg-white">
             <ScrollView className="px-6">
