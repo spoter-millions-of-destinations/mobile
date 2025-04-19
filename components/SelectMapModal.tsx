@@ -57,10 +57,10 @@ const SelectMapModal = ({ urlMap, setUrlMap }) => {
                     setModalVisible(!modalVisible);
                 }}
             >
-                <View className="relative flex-1 bg-transparent justify-end pb-6">
-                    <View className="flex-row justify-center items-end ">
+                <View className="relative justify-end flex-1 pb-6 bg-transparent">
+                    <View className="flex-row items-end justify-center ">
                         <View style={styles.modalView}>
-                            <View className="flex-row justify-between items-center mb-2">
+                            <View className="flex-row items-center justify-between mb-2">
                                 <View className="flex-1">
                                     <Text className="text-neutral-800 text-sm font-medium font-['Montserrat']">
                                         Kinds of Map

@@ -280,7 +280,7 @@ const CreateAds = () => {
     };
     return (
         <SafeAreaView className="flex-1 bg-neutral-50">
-            <ScrollView className=" px-6">
+            <ScrollView className="px-6 ">
                 <Text className="text-neutral-800 text-2xl font-semibold font-['Montserrat'] mb-[25]">
                     Advertise articles
                 </Text>
@@ -318,7 +318,7 @@ const CreateAds = () => {
                     description={"Select a payment method"}
                     content={<PaymentItem idPackage={idPackage} />}
                 />
-                <View className="flex-row justify-between items-center">
+                <View className="flex-row items-center justify-between">
                     <Text className="text-neutral-500 text-xs font-medium font-['Montserrat'] ">
                         Final step
                     </Text>

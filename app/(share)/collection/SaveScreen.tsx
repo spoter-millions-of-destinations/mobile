@@ -54,7 +54,7 @@ const SaveScreen = () => {
                     </View>
                 )}
 
-                <View className="bg-neutral-50 px-6 flex-1">
+                <View className="flex-1 px-6 bg-neutral-50">
                     <View className="flex-row justify-between items-center mb-6 mt-[25]">
                         <Text className="text-neutral-700 text-xl font-semibold font-['Montserrat']">
                             Collections

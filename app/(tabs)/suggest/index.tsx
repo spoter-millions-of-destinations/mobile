@@ -63,16 +63,16 @@ const Suggest = () => {
     }, []);
 
     return (
-        <SafeAreaView className="px-6 bg-white flex-1">
+        <SafeAreaView className="flex-1 px-6 bg-white">
             <ContainerComponent>
-                <View className="flex-row items-center justify-between gap-x-3 mb-5 ">
+                <View className="flex-row items-center justify-between mb-5 gap-x-3 ">
                     <View className="px-5 py-2 bg-neutral-50 rounded-[35px] border border-neutral-300 flex-row justify-between items-center relative flex-1">
                         <View>
-                            <KinhLup class="h-1 w-1" />
+                            <KinhLup class="w-1 h-1" />
                         </View>
 
                         <TextInput
-                            className="ml-5 flex-1"
+                            className="flex-1 ml-5"
                             placeholder="Seach here"
                         />
                         <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -146,14 +146,14 @@ const Suggest = () => {
                                     content={<PersionReview />}
                                 />
                             </ScrollView>
-                            <View className="flex-row justify-end items-center">
+                            <View className="flex-row items-center justify-end">
                                 <TouchableOpacity
                                     onPress={() =>
                                         setModalVisible(!modalVisible)
                                     }
                                     className="px-4 py-2 border rounded-[10px] border-neutral-300 mr-2"
                                 >
-                                    <Text className="text-black text-right">
+                                    <Text className="text-right text-black">
                                         Cancel
                                     </Text>
                                 </TouchableOpacity>
@@ -166,7 +166,7 @@ const Suggest = () => {
                                         setModalVisible(!modalVisible)
                                     }
                                 >
-                                    <Text className="text-white text-right">
+                                    <Text className="text-right text-white">
                                         Find
                                     </Text>
                                 </TouchableOpacity>

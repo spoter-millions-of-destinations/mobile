@@ -15,14 +15,14 @@ const PostMapComponent = ({ data }) => {
     return (
         <View className="w-[400] mb-[16]">
             <View className="flex-row  gap-x-[11]">
-                <View className="shadow overflow-hidden">
+                <View className="overflow-hidden shadow">
                     <Image
                         source={images[0]}
                         className="w-[140px] h-[140px] rounded-[25px]"
                         containFit="center"
                     />
                 </View>
-                <View className="flex-1 flex-col justify-between">
+                <View className="flex-col justify-between flex-1">
                     <View>
                         <UserInfo
                             textDark

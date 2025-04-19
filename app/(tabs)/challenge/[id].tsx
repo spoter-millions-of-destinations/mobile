@@ -68,14 +68,14 @@ const DetailChanllenge = () => {
                 </View>
 
                 <View className="mb-[60]">
-                    <Text className="text-neutral-800 text-xl font-normal  leading-tight">
+                    <Text className="text-xl font-normal leading-tight text-neutral-800 ">
                         About event
                     </Text>
                     <Text numberOfLines={3} ellipsizeMode="tail">
                         {description}
                     </Text>
                 </View>
-                <View className="flex-row flex-wrap flex-1 justify-between">
+                <View className="flex-row flex-wrap justify-between flex-1">
                     {missions.map((mision, index) => (
                         <MissionSmallComponent key={index} info={mision} />
                     ))}
@@ -88,7 +88,7 @@ const MissionSmallComponent = ({ info }) => {
     const { image, title, time } = info;
     return (
         <View className="mb-5 w-[180] p-[6] bg-white rounded-[15px] shadow">
-            <View className=" mb-2">
+            <View className="mb-2 ">
                 <Image
                     source={image}
                     className="w-full  h-[115px] rounded-[15px]"

@@ -35,14 +35,14 @@ const BottomSheetMap = ({ info }) => {
         >
             <BottomSheetView className="flex-1 bg-transparent">
                 <View className="flex-row p-5 gap-x-[11]">
-                    <View className="shadow overflow-hidden">
+                    <View className="overflow-hidden shadow">
                         <Image
                             source={images[0]}
                             className="w-[140px] h-[140px] rounded-[25px]"
                             containFit="center"
                         />
                     </View>
-                    <View className="flex-1 flex-col justify-between">
+                    <View className="flex-col justify-between flex-1">
                         <View>
                             <UserInfo
                                 textDark
@@ -55,7 +55,7 @@ const BottomSheetMap = ({ info }) => {
                                 {description}
                             </Text>
                         </View>
-                        <View className="flex-row justify-between items-center">
+                        <View className="flex-row items-center justify-between">
                             <Rating isDisabled={true} />
                             <TouchableOpacity
                                 className="flex-row justify-end"

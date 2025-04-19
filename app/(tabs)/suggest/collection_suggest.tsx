@@ -44,14 +44,14 @@ const CollectionSuggestion = () => {
     return (
         <SafeAreaView className="flex-1">
             <View className="px-6">
-                <View className="flex-row items-center justify-between gap-x-3 mb-5 ">
+                <View className="flex-row items-center justify-between mb-5 gap-x-3 ">
                     <View className="px-5 py-2 bg-neutral-50 rounded-[35px] border border-neutral-300 flex-row justify-between items-center relative flex-1">
                         <View>
-                            <KinhLup class="h-1 w-1" />
+                            <KinhLup class="w-1 h-1" />
                         </View>
 
                         <TextInput
-                            className="ml-5 flex-1"
+                            className="flex-1 ml-5"
                             placeholder="Seach here"
                         />
                         <TouchableOpacity onPress={() => setModalVisible(true)}>

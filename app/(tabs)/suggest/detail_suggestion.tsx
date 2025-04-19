@@ -31,7 +31,7 @@ const DetailPublicSuggestion = () => {
 
     return (
         <SafeAreaView className="flex-1 bg-neutral-50">
-            <View className="px-6 flex-1 ">
+            <View className="flex-1 px-6 ">
                 <TouchableOpacity
                     className="relative top-[20]"
                     onPress={() => navigation.goBack()}
@@ -85,7 +85,7 @@ const PostItem = ({ data }) => {
             <Text className="text-neutral-500 text-[10px] font-normal font-['Montserrat'] mb-[5]">
                 {description}
             </Text>
-            <View className="flex-row gap-x-1 items-center">
+            <View className="flex-row items-center gap-x-1">
                 <Pin />
                 <Text className=" text-neutral-600 text-[10px] font-normal font-['Montserrat'] ">
                     Vietnam

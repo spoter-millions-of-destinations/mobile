@@ -14,6 +14,7 @@ import { hexToRgba } from '@/helpers/hexToRgba'
 import UserInfo from '@/components/UserInfo'
 import { Pin } from '@/assets/images/Button'
 import { useRouter } from 'expo-router'
+import { useToggle } from '@/hooks'
 
 const PostCard = ({ post }: { post: Post }) => {
     const router = useRouter()
@@ -28,25 +29,40 @@ const PostCard = ({ post }: { post: Post }) => {
         attraction = {},
     } = post
 
-    const [liked, setLiked] = useState(false)
+    const [liked, toggleLike] = useToggle(post.isFavorite, !post.isFavorite)
     const [likeNumber, setLikeNumber] = useState(likes)
-    const [colors, setColors] = useState<ImageColorsResult>({
-        background: '#fff',
-        primary: '#fff',
-        secondary: '#fff',
-        detail: '#fff',
+    const [colors, setColors] = useState({
+        primary: '#ffffff',
+        detail: '#ffffff',
     })
 
     useEffect(() => {
         ;(async () => {
             try {
-                const color = await getColors(images[0], {
+                const result = await getColors(images[0], {
                     fallback: '#fff',
                     cache: true,
                     key: images[0],
                     quality: 'highest',
                 })
-                setColors(color)
+
+                if (result.platform === 'ios') {
+                    setColors({
+                        primary: result.primary,
+                        detail: result.detail,
+                    })
+                } else if (result.platform === 'android') {
+                    setColors({
+                        primary: result.dominant || '#ffffff',
+                        detail: result.average || '#ffffff',
+                    })
+                } else {
+                    // web fallback
+                    setColors({
+                        primary: result.dominant || '#ffffff',
+                        detail: result.darkVibrant || '#ffffff',
+                    })
+                }
             } catch (error) {
                 console.error('Lỗi khi lấy màu sắc:', error)
             }
@@ -65,9 +81,9 @@ const PostCard = ({ post }: { post: Post }) => {
             },
         })
 
-    const toggleLike = () => {
+    const handleToggleLink = () => {
         setLikeNumber((cur) => (liked ? cur - 1 : cur + 1))
-        setLiked((cur) => !cur)
+        toggleLike()
     }
 
     return (
@@ -83,7 +99,7 @@ const PostCard = ({ post }: { post: Post }) => {
                     imageStyle={{ borderRadius: 24 }}
                 >
                     <View className="flex-row justify-between">
-                        <UserInfo userImage={user.avatar} userName={user.name} postTime={createdAt} />
+                        <UserInfo user={user} postTime={createdAt} />
 
                         <Ionicons name="ellipsis-horizontal" size={24} color="white" />
                     </View>
@@ -91,7 +107,7 @@ const PostCard = ({ post }: { post: Post }) => {
                         <View className="flex-row" style={{ gap: 9 }}>
                             <Button
                                 text={likeNumber}
-                                onPress={toggleLike}
+                                onPress={handleToggleLink}
                                 icon={
                                     <Ionicons
                                         name={liked ? 'heart' : 'heart-outline'}

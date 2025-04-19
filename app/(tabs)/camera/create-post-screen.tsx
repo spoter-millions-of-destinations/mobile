@@ -1,19 +1,20 @@
-import { Delete } from '@/assets/images/Button'
 import Accordion from '@/app/(tabs)/camera/components/Accordion'
+import { Delete } from '@/assets/images/Button'
 import ContainerComponent from '@/components/ContainerComponent'
 import UserInfo from '@/components/UserInfo'
 import { color } from '@/constants/Colors'
 import { UserContext } from '@/context/AuthContext'
-import { usePostStore } from '@/store/usePostStore'
-import { Image } from 'expo-image'
-import { router } from 'expo-router'
-import React, { useState } from 'react'
-import { Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { useHideBottonTab } from '@/hooks'
 import fileService from '@/services/file.service'
 import postService from '@/services/post.service'
-import { requestForegroundPermissionsAsync, getCurrentPositionAsync } from 'expo-location'
+import { User } from '@/services/user.service'
+import { usePostStore } from '@/store/usePostStore'
+import { Image } from 'expo-image'
+import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location'
 import { scheduleNotificationAsync } from 'expo-notifications'
+import { router } from 'expo-router'
+import React, { useState } from 'react'
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
 const CreatePostScreen = () => {
@@ -74,8 +75,8 @@ const CreatePostScreen = () => {
 
     return (
         <ContainerComponent>
-            <View className="flex-row justify-between py-5 rounded-3xl overflow-hidden ">
-                <View className="flex-row gap-x-4 items-center">
+            <View className="flex-row justify-between py-5 overflow-hidden rounded-3xl ">
+                <View className="flex-row items-center gap-x-4">
                     <TouchableOpacity
                         className="flex-row items-center justify-center"
                         onPress={() => {
@@ -102,7 +103,7 @@ const CreatePostScreen = () => {
             <ScrollView>
                 <View className="flex-col justify-between flex-1">
                     <View className="flex-1">
-                        <UserInfo disableAdd={true} userName={user!.name} textDark={true} userImage={user!.avatar} />
+                        <UserInfo disableAdd={true} user={user as User} textDark={true} />
                         <TextInput
                             multiline
                             value={caption}

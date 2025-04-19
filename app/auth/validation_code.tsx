@@ -39,7 +39,7 @@ const VerificationScreen = () => {
     }
 
     return (
-        <View className="flex-1 bg-white px-5 pt-14">
+        <View className="flex-1 px-5 bg-white pt-14">
             {/* Header */}
             <View className="flex-row items-center gap-x-5 mb-[30px]">
                 <Back />
@@ -50,7 +50,7 @@ const VerificationScreen = () => {
 
             <Progress.Bar progress={2 / 3} width={null} color="#262626" animationType="timing" className="mb-[40px]" />
 
-            <Text className="text-base text-gray-800 mb-4">Enter the verification code we sent to your email</Text>
+            <Text className="mb-4 text-base text-gray-800">Enter the verification code we sent to your email</Text>
 
             <Controller
                 control={control}
@@ -84,7 +84,7 @@ const VerificationScreen = () => {
             />
 
             <TouchableOpacity onPress={() => console.log('Resend code')} className="mb-4">
-                <Text className="text-blue-700 font-semibold text-base">Resend Code</Text>
+                <Text className="text-base font-semibold text-blue-700">Resend Code</Text>
             </TouchableOpacity>
 
             <View
@@ -95,7 +95,7 @@ const VerificationScreen = () => {
                     onPress={handleSubmit(onSubmit)}
                     className="text-center text-white text-base font-medium font-['Montserrat']"
                 >
-                    <Text className="text-white text-center font-semibold text-base">Verify</Text>
+                    <Text className="text-base font-semibold text-center text-white">Verify</Text>
                 </TouchableOpacity>
             </View>
         </View>

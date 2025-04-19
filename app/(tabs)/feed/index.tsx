@@ -47,7 +47,7 @@ const NewFeed = () => {
 
     return (
         <View className="flex-1 bg-white">
-            <View className="px-6 py-1 flex-row justify-between items-center">
+            <View className="flex-row items-center justify-between px-6 py-1">
                 <NewPostLogo />
                 <View className="flex-row items-centers gap-x-4">
                     <TouchableOpacity>
@@ -63,7 +63,7 @@ const NewFeed = () => {
                 </View>
             </View>
             {isLoading ? (
-                <View className="w-full h-full flew-col flex-1 justify-center items-center">
+                <View className="items-center justify-center flex-1 w-full h-full flew-col">
                     <Loading />
                 </View>
             ) : (

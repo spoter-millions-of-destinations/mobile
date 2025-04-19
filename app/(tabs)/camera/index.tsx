@@ -52,9 +52,9 @@ const CameraScreen = () => {
     }
 
     return (
-        <View className="flex-1  bg-black">
-            <View className="flex-1 justify-center">
-                <View className="flex-1 relative">
+        <View className="flex-1 bg-black ">
+            <View className="justify-center flex-1">
+                <View className="relative flex-1">
                     <TouchableOpacity
                         onPress={() => {
                             router.back()
@@ -70,13 +70,13 @@ const CameraScreen = () => {
                         flash={flash}
                         style={styles.camera}
                         facing={facing}
-                        className="flex-column justify-between"
+                        className="justify-between flex-column"
                         ref={imageRef}
                     />
                 </View>
 
                 <View className="bg-white">
-                    <View className="flex-row justify-between items-center w-full py-6 px-10">
+                    <View className="flex-row items-center justify-between w-full px-10 py-6">
                         <TouchableOpacity onPress={() => toggleFlash()}>
                             <Flash />
                         </TouchableOpacity>

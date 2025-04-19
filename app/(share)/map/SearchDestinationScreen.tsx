@@ -20,7 +20,7 @@ const SearchDestinationScreen = () => {
         <SafeAreaView className="flex-1 bg-neutral-50 ">
             <View className="px-6">
                 <View className="px-5 py-4 bg-neutral-50 rounded-[35px] border border-neutral-300 justify-between items-center flex-row mb-[23]">
-                    <View className="flex-row justify-center items-center">
+                    <View className="flex-row items-center justify-center">
                         <TouchableOpacity
                             onPress={() => {
                                 navigation.goBack()
@@ -39,7 +39,7 @@ const SearchDestinationScreen = () => {
                         />
                     </View>
                     <TouchableOpacity onPress={handleSearch}>
-                        <View className="flex-row justify-center items-center">
+                        <View className="flex-row items-center justify-center">
                             <Microphone />
                         </View>
                     </TouchableOpacity>
