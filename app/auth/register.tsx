@@ -71,7 +71,7 @@ const Register = () => {
     }
     return (
         <View className="flex-1" style={{ backgroundColor: color.primary }}>
-            <View className="p-5 flex-1 bg-white ">
+            <View className="flex-1 p-5 bg-white ">
                 <View className="flex-row items-center gap-x-5 mb-[30px]">
                     <Back />
                     <Text className="text-neutral-800 text-base font-semibold font-['Montserrat'] leading-none ">
@@ -181,7 +181,7 @@ const Register = () => {
                 >
                     <TouchableOpacity
                         disabled={mutation.isPending}
-                        className="flex-row justify-center mb-4 py-3 rounded-xl "
+                        className="flex-row justify-center py-3 mb-4 rounded-xl "
                         style={{ backgroundColor: color.primary }}
                         onPress={handleSubmit(onSubmit, (formErrors) => {
                             Object.values(formErrors).forEach((error: any) => {
@@ -196,7 +196,7 @@ const Register = () => {
                         {mutation.isPending ? (
                             <ActivityIndicator color="#fff" />
                         ) : (
-                            <Text className="text-white font-semibold">Continue</Text>
+                            <Text className="font-semibold text-white">Continue</Text>
                         )}
                     </TouchableOpacity>
                 </View>

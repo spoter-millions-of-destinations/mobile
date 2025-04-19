@@ -142,10 +142,10 @@ const MapScreen = () => {
                 styleURL={urlMap}
             >
                 <SafeAreaView className="z-20">
-                    <View className=" px-6 flex-col justify-between items-end">
+                    <View className="flex-col items-end justify-between px-6 ">
                         <View>
                             <View className="flex-row px-[20px] py-2 bg-neutral-50 rounded-[35px] shadow items-center w-full justify-between mb-[15]">
-                                <View className="flex-row justify-center items-center">
+                                <View className="flex-row items-center justify-center">
                                     <PinMap className="mr-5" />
                                     <TouchableOpacity
                                         className=""
@@ -160,7 +160,7 @@ const MapScreen = () => {
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View className="flex-row justify-center items-center">
+                                <View className="flex-row items-center justify-center">
                                     <Microphone className="mr-5" />
                                     <Image
                                         source={user.avatar}

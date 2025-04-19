@@ -12,11 +12,10 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { fonts } from '@/assets/fonts/fonts'
 import { QueryClient } from '@tanstack/react-query'
-import { Slot } from 'expo-router'
-import { Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import Toast from 'react-native-toast-message'
 import * as Notifications from 'expo-notifications'
+import { Slot } from 'expo-router'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import Toast from 'react-native-toast-message'
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -46,9 +45,11 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
             <GestureHandlerRootView className="flex-1">
                 <UserProvider>
-                    <SafeAreaView className="flex-1">
-                        <Slot />
-                    </SafeAreaView>
+                    <SafeAreaProvider>
+                        <SafeAreaView className="flex-1">
+                            <Slot />
+                        </SafeAreaView>
+                    </SafeAreaProvider>
                     <Toast position="top" />
                 </UserProvider>
             </GestureHandlerRootView>

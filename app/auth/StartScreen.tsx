@@ -28,8 +28,8 @@ const StartScreen = () => {
         })()
     }, [])
     return (
-        <View className="flex-1 align-center p-4 justify-center" style={{ backgroundColor: color.white }}>
-            <Text className="text-4xl text-center text-black font-bold mb-10">Let's Get Started!</Text>
+        <View className="justify-center flex-1 p-4 align-center" style={{ backgroundColor: color.white }}>
+            <Text className="mb-10 text-4xl font-bold text-center text-black">Let's Get Started!</Text>
             <View className="flex-row justify-center mb-12">
                 <Image source={require('@/assets/images/logo-big.jpg')} />
             </View>
@@ -39,21 +39,21 @@ const StartScreen = () => {
                 style={{ backgroundColor: color.primary }}
             >
                 <TouchableOpacity
-                    className="flex-row justify-center mb-4 py-4 rounded-xl "
+                    className="flex-row justify-center py-4 mb-4 rounded-xl "
                     style={{ backgroundColor: color.primary }}
                     onPress={() => {
                         router.navigate('/auth/register')
                     }}
                 >
-                    <Text className="text-white font-semibold">Sign up</Text>
+                    <Text className="font-semibold text-white">Sign up</Text>
                 </TouchableOpacity>
             </View>
 
             <TouchableOpacity onPress={() => router.navigate('/auth/login')}>
                 <View className="flex-row justify-center">
-                    <Text className="text-black font-semibold">Already have an account?</Text>
+                    <Text className="font-semibold text-black">Already have an account?</Text>
                     <Text
-                        className=" font-semibold"
+                        className="font-semibold "
                         style={[
                             {
                                 color: color.primary,

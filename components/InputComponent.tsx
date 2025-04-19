@@ -16,7 +16,7 @@ const InputComponent = forwardRef<TextInput, InputComponentProps>(
     ) => {
         return (
             <View className={className}>
-                {text && <Text className="text-gray-700 mb-1 ml-4">{text}</Text>}
+                {text && <Text className="mb-1 ml-4 text-gray-700">{text}</Text>}
                 <View className="flex-row items-center py-5 px-[22px] rounded-[10px] border border-neutral-300 mb-[30]">
                     {affix}
                     <TextInput

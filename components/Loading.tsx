@@ -5,7 +5,7 @@ import { View } from 'react-native'
 
 const Loading = () => {
     return (
-        <View className="flex-1 items-center justify-start">
+        <View className="items-center justify-start flex-1">
             <LottieView source={LoadingRefresh} loop={true} autoPlay />
         </View>
     )

@@ -5,7 +5,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 const CommentComponent = ({ data }) => {
     const { user, content, createdAt } = data
     return (
-        <View className="flex-row item-start justify-center mb-4">
+        <View className="flex-row justify-center mb-4 item-start">
             <Image
                 source={{ uri: user.avatar }}
                 style={{

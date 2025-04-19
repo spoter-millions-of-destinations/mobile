@@ -31,7 +31,7 @@ const CreateCollection = () => {
         alert("Collection created")
     };
     return (
-        <View className="flex-1 px-6 bg-neutral-50 py-5">
+        <View className="flex-1 px-6 py-5 bg-neutral-50">
             <View className="flex-row items-center justify-between">
                 <View className="flex-row items-center">
                     <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -49,7 +49,7 @@ const CreateCollection = () => {
                 </TouchableOpacity>
             </View>
             <ScrollView className="flex-1">
-                <View className=" flex-1">
+                <View className="flex-1 ">
                     <View className="items-center justify-center mt-[22] mb-[40]">
                         <Image
                             source={imageButton.imageInput}

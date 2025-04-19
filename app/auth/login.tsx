@@ -98,7 +98,7 @@ const LoginScreen = () => {
                     </View>
                 </View>
                 <View className="w-[294px] h-[10] border-[2px] border-neutral-500 mx-auto"></View>
-                <View className="mb-3 relative bottom-3 bg-white inline">
+                <View className="relative inline mb-3 bg-white bottom-3">
                     <Text className=" text-center text-neutral-500 text-sm font-medium font-['Montserrat'] leading-none inline">
                         or log in with
                     </Text>

@@ -32,7 +32,7 @@ const Accordion = () => {
                 onPress={toggleAccordion}
                 className="flex-row  justify-between bg-stone-100 px-[38] py-3 rounded-tl-[15px] rounded-tr-[15px] "
             >
-                <View className="flex-row gap-6 justify-between ">
+                <View className="flex-row justify-between gap-6 ">
                     <AddPhoto />
                     <CropPhoto />
                 </View>

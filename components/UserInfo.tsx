@@ -1,21 +1,22 @@
 import { calculateTime } from '@/helpers/time'
+import { User } from '@/services/user.service'
+import { router } from 'expo-router'
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 type UserInfoProps = {
-    userImage?: string
     postTime?: string
-    userName: string
+
     textDark?: boolean
     disableAdd?: boolean
     style?: any
     isSponser?: boolean
-}
+} & { user: Pick<User, 'id' | 'name' | 'avatar'> }
 const UserInfo = ({
-    userImage = 'https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg',
+    user,
 
     postTime,
-    userName,
+
     textDark = false,
     disableAdd = false,
     style,
@@ -49,30 +50,32 @@ const UserInfo = ({
         },
     })
     return (
-        <View className="relative flex-row items-center" style={style}>
-            <Image
-                source={{
-                    uri:
-                        userImage ||
-                        'https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg',
-                }}
-                style={styles.userImage}
-            />
-            {!disableAdd && <Image source={require('@/assets/images/follow-icon.png')} style={styles.follow} />}
-            <View>
-                <Text
-                    style={styles.userName}
-                    className="text-sm font-medium font-['Montserrat'] leading-none tracking-tight mb-1"
-                >
-                    {userName}
-                </Text>
-                {postTime && (
-                    <Text style={styles.postTime} className="text-[11px] font-['Montserrat']">
-                        {isSponser ? 'Sponsered' : calculateTime(postTime)}
+        <TouchableOpacity onPress={() => router.push(`/profile/${user.id}`)}>
+            <View className="relative flex-row items-center" style={style}>
+                <Image
+                    source={{
+                        uri:
+                            user.avatar ||
+                            'https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg',
+                    }}
+                    style={styles.userImage}
+                />
+                {!disableAdd && <Image source={require('@/assets/images/follow-icon.png')} style={styles.follow} />}
+                <View>
+                    <Text
+                        style={styles.userName}
+                        className="text-sm font-medium font-['Montserrat'] leading-none tracking-tight mb-1"
+                    >
+                        {user.name}
                     </Text>
-                )}
+                    {postTime && (
+                        <Text style={styles.postTime} className="text-[11px] font-['Montserrat']">
+                            {isSponser ? 'Sponsered' : calculateTime(postTime)}
+                        </Text>
+                    )}
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

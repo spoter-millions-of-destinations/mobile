@@ -1,87 +1,70 @@
-import { Image } from 'expo-image'
-import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Ads, Follow, LineProfile, Share } from '@/assets/images/Button'
-
-import { color } from '@/constants/Colors'
-
-import { useNavigation } from '@react-navigation/native'
-import { UserContext } from '@/context/AuthContext'
-import posts from '@/data/posts'
-import collectionService, { Collection } from '@/services/collection.service'
-import Loading from '@/components/Loading'
-import { Collection as CollectionComponent } from '@/components/Collection'
+import { MaterialTabBar, Tabs } from 'react-native-collapsible-tab-view'
+import UserCollections from './(tabs)/collections'
+import UserImages from './(tabs)/images'
+import UserPosts from './(tabs)/posts'
 import UserProfile from './components/UserProfile'
 
+import { useState } from 'react'
+import { CustomTabItem } from './components'
+import { ContainerComponent } from '@/components'
+import { View } from 'react-native'
+import { useHideBottonTab } from '@/hooks'
 
+type Props = {
+    userId: number
+}
 
+export default function ProfileScreen({ userId }: Props) {
+    const [activeTab, setActiveTab] = useState(0)
 
-
-const Profile = () => {
     return (
-        <View className="flex-1">
-            <ScrollView className="flex-1 bg-neutral-50">
-                <UserProfile />
-                <View className="-mt-[29] px-6 flex-1 h-[1000] bg-neutral-50 ">
-                    <Tab.Navigator
-                        className="bg-neutral-50 "
-                        screenOptions={({ route }) => ({
-                            headerShown: false,
-                            tabBarShowLabel: false,
-                            tabBarIcon: ({ focused, color, size }) => {
-                                let iconName
-                                let iconSize = 24
-                                switch (route.name) {
-                                    case 'user-posts':
-                                        iconName = focused ? 'apps' : 'apps-outline'
-                                        break
-                                    case 'user-images':
-                                        iconName = focused ? 'image' : 'image-outline'
-                                        break
-                                    case 'user-collections':
-                                        iconName = focused ? 'bookmark' : 'bookmark-outline'
-                                        break
-                                    default:
-                                        iconName = focused ? 'bookmark' : 'bookmark-outline'
-                                }
-                                return <Icon name={iconName} size={iconSize} color={color} />
-                            },
-                            tabBarActiveTintColor: 'black',
-                            tabBarInactiveTintColor: 'gray',
-                            tabBarStyle: {
-                                backgroundColor: 'transparent',
-                            },
-
-                            tabBarIndicatorStyle: {
-                                backgroundColor: '#404040',
-                                width: 40,
-                                left: '16.75%',
-                                marginLeft: -20,
-                            },
-                        })}
-                    >
-                        <Tab.Screen name="user-posts" component={UserPosts} />
-                        <Tab.Screen name="user-images" component={UserImages} />
-                        <Tab.Screen name="user-collections" component={UserCollections} />
-                    </Tab.Navigator>
-                </View>
-            </ScrollView>
+        <View className="flex-1 pb-[44]">
+            <Tabs.Container
+                renderHeader={() => <UserProfile userId={userId} />}
+                headerContainerStyle={{ backgroundColor: '#FAFAFA' }}
+                lazy
+                containerStyle={{ backgroundColor: '#FAFAFA' }}
+                onTabChange={({ index }) => setActiveTab(index)}
+                renderTabBar={(props) => (
+                    <MaterialTabBar
+                        {...props}
+                        scrollEnabled={false}
+                        style={{
+                            alignSelf: 'center', // Căn giữa thanh tab bar
+                            backgroundColor: '#FAFAFA',
+                        }}
+                        tabStyle={{
+                            flex: 1,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                        indicatorStyle={{
+                            backgroundColor: '#404040',
+                            height: 3,
+                            borderRadius: 2,
+                        }}
+                        TabItemComponent={(tabProps) => (
+                            <CustomTabItem {...tabProps} tabIndex={tabProps.index as 0 | -1} activeTab={activeTab} />
+                        )}
+                    />
+                )}
+            >
+                <Tabs.Tab name="Posts">
+                    <ContainerComponent>
+                        <UserPosts userId={userId} />
+                    </ContainerComponent>
+                </Tabs.Tab>
+                <Tabs.Tab name="Images">
+                    <ContainerComponent>
+                        <UserImages userId={userId} />
+                    </ContainerComponent>
+                </Tabs.Tab>
+                <Tabs.Tab name="Collections">
+                    <ContainerComponent>
+                        <UserCollections userId={userId} />
+                    </ContainerComponent>
+                </Tabs.Tab>
+            </Tabs.Container>
         </View>
     )
 }
-
-
-
-const Number = ({ number, content }) => {
-    return (
-        <View className="flex-col items-center">
-            <Text className="mb-[2] text-center text-sky-950 text-xl font-semibold font-['Montserrat']">{number}</Text>
-
-            <Text className="text-neutral-500 text-xs font-normal font-['Montserrat']">{content}</Text>
-        </View>
-    )
-}
-
-
-
-export default Profile

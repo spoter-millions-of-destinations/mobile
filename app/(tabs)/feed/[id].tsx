@@ -1,6 +1,5 @@
 import UserInfo from '@/components/UserInfo'
-import { useNavigation } from '@react-navigation/native'
-import { useLayoutEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
     KeyboardAvoidingView,
     Platform,
@@ -15,14 +14,14 @@ import {
 
 import { Back, Comment, Navigation, Save, Send } from '@/assets/images/Button'
 
+import { useHideBottonTab } from '@/hooks'
 import commentService from '@/services/comment.service'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
-import CommentComponent from './components/Comment'
 import Loading from '../../../components/Loading'
-import { useHideBottonTab } from '@/hooks'
+import CommentComponent from './components/Comment'
 
 export const unstable_settings = {
     // Ẩn tab bar khi vào trang này
@@ -67,7 +66,7 @@ const DetailPostScreen = () => {
         <SafeAreaView className="flex-1 bg-white">
             <ScrollView className="px-6">
                 {/* Header */}
-                <View className="flex-row justify-between items-center mb-2">
+                <View className="flex-row items-center justify-between mb-2">
                     <View className="flex-row items-center flex-1">
                         <TouchableOpacity onPress={() => router.back()}>
                             <Back />
@@ -76,8 +75,7 @@ const DetailPostScreen = () => {
                         <UserInfo
                             style={{ marginLeft: 16 }}
                             textDark={true}
-                            userImage={user.avatar}
-                            userName={user.name}
+                            user={user}
                             postTime={createdAt}
                         />
                     </View>
@@ -104,8 +102,8 @@ const DetailPostScreen = () => {
                 ></View>
 
                 {/* Like, comment, save */}
-                <View className="mb-5 flex-row justify-between">
-                    <View className="flex-row gap-x-4 items-center">
+                <View className="flex-row justify-between mb-5">
+                    <View className="flex-row items-center gap-x-4">
                         <View>
                             <TouchableOpacity onPress={toggleLike} className="flex-row items-center">
                                 <Ionicons
@@ -171,7 +169,7 @@ const DetailPostScreen = () => {
                         onChangeText={setCommentText}
                         placeholderTextColor={'#525252'}
                     />
-                    <View className="flex-row justify-between items-center">
+                    <View className="flex-row items-center justify-between">
                         <View style={styles.iconContainer} className="gap-2">
                             <TouchableOpacity>
                                 <Ionicons name="happy-outline" size={20} color="grey" />
