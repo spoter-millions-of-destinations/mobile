@@ -6,22 +6,12 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 type UserInfoProps = {
     postTime?: string
-
     textDark?: boolean
     disableAdd?: boolean
     style?: any
     isSponser?: boolean
 } & { user: Pick<User, 'id' | 'name' | 'avatar'> }
-const UserInfo = ({
-    user,
-
-    postTime,
-
-    textDark = false,
-    disableAdd = false,
-    style,
-    isSponser,
-}: UserInfoProps) => {
+const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style, isSponser }: UserInfoProps) => {
     const styles = StyleSheet.create({
         userImage: {
             width: 40,
@@ -54,9 +44,7 @@ const UserInfo = ({
             <View className="relative flex-row items-center" style={style}>
                 <Image
                     source={{
-                        uri:
-                            user.avatar ||
-                            'https://www.vietnamworks.com/hrinsider/wp-content/uploads/2023/12/anh-den-ngau.jpeg',
+                        uri: user.avatar,
                     }}
                     style={styles.userImage}
                 />
