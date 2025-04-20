@@ -15,6 +15,7 @@ import UserInfo from '@/components/UserInfo'
 import { Pin } from '@/assets/images/Button'
 import { useRouter } from 'expo-router'
 import { useToggle } from '@/hooks'
+import { ButtonOnPost } from './ButtonOnPost'
 
 const PostCard = ({ post }: { post: Post }) => {
     const router = useRouter()
@@ -105,7 +106,7 @@ const PostCard = ({ post }: { post: Post }) => {
                     </View>
                     <View className="flex-row justify-between">
                         <View className="flex-row" style={{ gap: 9 }}>
-                            <Button
+                            <ButtonOnPost
                                 text={likeNumber}
                                 onPress={handleToggleLink}
                                 icon={
@@ -116,14 +117,14 @@ const PostCard = ({ post }: { post: Post }) => {
                                     />
                                 }
                             />
-                            <Button
+                            <ButtonOnPost
                                 text={comments}
                                 onPress={handleGoToDetailPost}
                                 icon={<Ionicons name="chatbubble-outline" size={20} color="white" />}
                             />
                         </View>
                         <View className="flex-row" style={{ gap: 9 }}>
-                            <Button
+                            <ButtonOnPost
                                 onPress={() =>
                                     navigation.navigate('map', {
                                         post: [post.longitude, post.latitude],
@@ -132,7 +133,7 @@ const PostCard = ({ post }: { post: Post }) => {
                                 icon={<Ionicons name="paper-plane-outline" size={20} color="white" />}
                             />
 
-                            <Button
+                            <ButtonOnPost
                                 onPress={() =>
                                     navigation.navigate('save', {
                                         postImage: images[0],
@@ -163,23 +164,6 @@ const PostCard = ({ post }: { post: Post }) => {
         </View>
     )
 }
-const Button = ({ text, icon, onPress }: { text?: string | number; icon: React.ReactNode; onPress: () => void }) => {
-    return (
-        <TouchableOpacity onPress={onPress} className="rounded-[14px] overflow-hidden">
-            <BlurView
-                intensity={40}
-                tint="light"
-                className=" px-3 py-3.5 bg-neutral-50/40 rounded-2xl backdrop-blur-[1.50px] flex-row justify-start items-center gap-2.5 overflow-hidden"
-            >
-                {icon}
-                {text && (
-                    <Text className="text-center text-neutral-50 text-xs font-semibold font-['Montserrat']">
-                        {text}
-                    </Text>
-                )}
-            </BlurView>
-        </TouchableOpacity>
-    )
-}
+
 
 export default PostCard
