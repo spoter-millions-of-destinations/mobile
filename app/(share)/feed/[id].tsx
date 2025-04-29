@@ -22,20 +22,19 @@ import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import Loading from '../../../components/Loading'
 import CommentComponent from './components/Comment'
-
-export const unstable_settings = {
-    // Ẩn tab bar khi vào trang này
-    tabBarStyle: { display: 'none' },
-}
+import { Post } from '@/services/post.service'
+import { useNavigatHelper } from '@/hooks/useNavigateHelper'
 
 const DetailPostScreen = () => {
-    const data = useLocalSearchParams()
-    const post = JSON.parse(data.post as string)
+    const { data } = useLocalSearchParams()
+    const { goToCollection, goToMap } = useNavigatHelper()
+    const post: Post = JSON.parse(data as string)
+
     const { id, user, createdAt, images, description } = post
 
     const [commentText, setCommentText] = useState('')
-    const [liked, setLiked] = useState(false)
-    useHideBottonTab()
+    const [liked, setLiked] = useState(() => post.isFavorite)
+
     const { data: comments, isLoading } = useQuery({
         queryKey: ['comments', id],
         queryFn: async () => {
@@ -72,12 +71,7 @@ const DetailPostScreen = () => {
                             <Back />
                         </TouchableOpacity>
 
-                        <UserInfo
-                            style={{ marginLeft: 16 }}
-                            textDark={true}
-                            user={user}
-                            postTime={createdAt}
-                        />
+                        <UserInfo style={{ marginLeft: 16 }} textDark={true} user={user} postTime={createdAt} />
                     </View>
                     <View>
                         <Ionicons name="ellipsis-horizontal" size={24} color="black" />
@@ -124,21 +118,12 @@ const DetailPostScreen = () => {
                         </View>
                     </View>
                     <View className="flex-row items-center gap-x-4">
-                        <TouchableOpacity
-                            onPress={() =>
-                                navigation.navigate('map', {
-                                    post: [post.longitude, post.latitude],
-                                })
-                            }
-                        >
+                        <TouchableOpacity onPress={() => goToMap(post, 'detail_post')}>
                             <Navigation />
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('save', {
-                                    postId: id,
-                                    postImage: images[0],
-                                })
+                                goToCollection(post)
                             }}
                         >
                             <Save />

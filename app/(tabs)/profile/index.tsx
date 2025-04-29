@@ -4,11 +4,10 @@ import UserImages from './(tabs)/images'
 import UserPosts from './(tabs)/posts'
 import UserProfile from './components/UserProfile'
 
-import { useState } from 'react'
-import { CustomTabItem } from './components'
 import { ContainerComponent } from '@/components'
-import { View } from 'react-native'
-import { useHideBottonTab } from '@/hooks'
+import { useState } from 'react'
+import { SafeAreaView } from 'react-native'
+import { CustomTabItem } from './components'
 
 type Props = {
     userId: number
@@ -18,7 +17,7 @@ export default function ProfileScreen({ userId }: Props) {
     const [activeTab, setActiveTab] = useState(0)
 
     return (
-        <View className="flex-1 pb-[44]">
+        <SafeAreaView className="flex-1">
             <Tabs.Container
                 renderHeader={() => <UserProfile userId={userId} />}
                 headerContainerStyle={{ backgroundColor: '#FAFAFA' }}
@@ -65,6 +64,6 @@ export default function ProfileScreen({ userId }: Props) {
                     </ContainerComponent>
                 </Tabs.Tab>
             </Tabs.Container>
-        </View>
+        </SafeAreaView>
     )
 }

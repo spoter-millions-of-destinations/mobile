@@ -1,23 +1,22 @@
-import { Ionicons } from '@expo/vector-icons' // Thư viện icons
-import { Text, View, ImageBackground } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'; // Thư viện icons
+import { ImageBackground, Text, View } from 'react-native'
 
-import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { getColors, ImageColorsResult } from 'react-native-image-colors'
+import { getColors } from 'react-native-image-colors'
 
 import { BlurView } from 'expo-blur'
 import { LinearGradient } from 'expo-linear-gradient'
 
-import { Post } from '@/services/post.service'
-import { hexToRgba } from '@/helpers/hexToRgba'
-import UserInfo from '@/components/UserInfo'
 import { Pin } from '@/assets/images/Button'
-import { useRouter } from 'expo-router'
+import UserInfo from '@/components/UserInfo'
+import { hexToRgba } from '@/helpers/hexToRgba'
 import { useToggle } from '@/hooks'
+import { useNavigatHelper } from '@/hooks/useNavigateHelper'
+import { Post } from '@/services/post.service'
 
 const PostCard = ({ post }: { post: Post }) => {
-    const router = useRouter()
+    const { goToPostDetail, goToCollection, goToMap } = useNavigatHelper()
     const {
         id,
         user,
@@ -69,18 +68,6 @@ const PostCard = ({ post }: { post: Post }) => {
         })()
     }, [images])
 
-    const navigation = useNavigation()
-
-    const handleGoToDetailPost = () =>
-        router.push({
-            pathname: '/(tabs)/feed/[id]',
-            params: {
-                id: post.id,
-                post: JSON.stringify(post),
-                from: 'feeds',
-            },
-        })
-
     const handleToggleLink = () => {
         setLikeNumber((cur) => (liked ? cur - 1 : cur + 1))
         toggleLike()
@@ -118,34 +105,25 @@ const PostCard = ({ post }: { post: Post }) => {
                             />
                             <Button
                                 text={comments}
-                                onPress={handleGoToDetailPost}
+                                onPress={() => goToPostDetail(post)}
                                 icon={<Ionicons name="chatbubble-outline" size={20} color="white" />}
                             />
                         </View>
                         <View className="flex-row" style={{ gap: 9 }}>
                             <Button
-                                onPress={() =>
-                                    navigation.navigate('map', {
-                                        post: [post.longitude, post.latitude],
-                                    })
-                                }
+                                onPress={() => goToMap(post, 'detail_post')}
                                 icon={<Ionicons name="paper-plane-outline" size={20} color="white" />}
                             />
 
                             <Button
-                                onPress={() =>
-                                    navigation.navigate('save', {
-                                        postImage: images[0],
-                                        postId: id,
-                                    })
-                                }
+                                onPress={() => goToCollection(post)}
                                 icon={<Ionicons name="bookmark-outline" size={20} color="white" />}
                             />
                         </View>
                     </View>
                 </ImageBackground>
                 <View className="px-5 py-4">
-                    <TouchableOpacity onPress={handleGoToDetailPost}>
+                    <TouchableOpacity onPress={() => goToPostDetail(post)}>
                         <Text className="text-black text-[14px] font-normal font-['Montserrat'] mb-2">
                             {description}
                         </Text>

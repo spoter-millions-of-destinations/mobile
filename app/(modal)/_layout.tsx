@@ -1,31 +1,25 @@
 import { Stack } from 'expo-router'
 
-export default function MapLayout() {
+export default function ModalStackLayout() {
     return (
         <Stack
             screenOptions={{
                 headerShown: false,
             }}
         >
-            <Stack.Screen name="index" options={{}} />
             <Stack.Screen
-                name="attraction_pin"
+                name="create_collection"
                 options={{
-                    headerShown: false,
-                    presentation: 'formSheet',
-
-                    sheetCornerRadius: 30,
-                    sheetGrabberVisible: true,
+                    presentation: 'modal',
                 }}
             />
             <Stack.Screen
-                name="post_pin"
+                name="save"
                 options={{
                     headerShown: false,
-                    presentation: 'formSheet',
-                    sheetAllowedDetents: 'fitToContents',
                     sheetCornerRadius: 30,
                     sheetGrabberVisible: true,
+                    presentation: 'modal',
                 }}
             />
         </Stack>

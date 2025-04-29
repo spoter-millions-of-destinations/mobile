@@ -25,7 +25,7 @@ export const Collection = ({ data, onPress }: Props) => {
                     <Text className=" text-sm font-semibold font-['Montserrat'] text-neutral-700">{data.name}</Text>
                     <Text className="text-neutral-500 text-xs font-normal font-['Montserrat']">{data.description}</Text>
                 </View>
-                <View className="mr-[54px]">
+                <View className="mr-[30px]">
                     <TouchableOpacity onPress={onPress}>
                         <ChevronRight />
                     </TouchableOpacity>

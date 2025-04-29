@@ -1,6 +1,6 @@
 import CreateAds from '@/app/(tabs)/profile/components/CreateAds'
 import StripeScreen from '@/pages/InApp/StripePayment/StripeScreen'
-import DetailPublicSuggestion from '@/app/(tabs)/suggest/detail_suggestion'
+import DetailPublicSuggestion from '@/app/(share)/collection/components/CollectionItem'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Profile } from 'iconsax-react-native'
 import React from 'react'

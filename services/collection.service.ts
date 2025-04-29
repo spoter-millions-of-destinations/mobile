@@ -1,6 +1,7 @@
 // authService.js
 
 import axiosClient from './axiosClient'
+import fileService from './file.service'
 import { Post } from './post.service'
 import { User } from './user.service'
 import { create } from 'zustand'
@@ -20,10 +21,9 @@ export type Collection = {
             post: Post
         },
     ]
-    isAdded: null
 }
 const collectionService = {
-    createCollection: (data: Pick<Collection, 'name' | 'image' | 'description'>): Promise<Collection> => {
+    createCollection: async (data: Pick<Collection, 'name' | 'image' | 'description'>): Promise<Collection> => {
         return axiosClient.post('/collections', data)
     },
     getCollectionsOfUser: (userId: number, limit: number = 10, offset: number = 0): Promise<Collection[]> =>

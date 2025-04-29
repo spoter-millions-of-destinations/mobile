@@ -1,16 +1,21 @@
-import React from "react";
-import { TouchableOpacity } from "react-native";
-
-const FloatingButtonComponent = ({ icon, onPress, style }) => {
+import React from 'react'
+import { StyleProp, TouchableOpacity, View, ViewStyle } from 'react-native'
+type Props = {
+    icon: React.ReactNode
+    onPress: () => void
+    style?: StyleProp<ViewStyle>
+}
+const FloatingButtonComponent = ({ icon, onPress, style }: Props) => {
     return (
-        <TouchableOpacity
-            style={style}
-            onPress={onPress}
-            className="w-[50px] h-[50px] bg-neutral-50 rounded-full shadow flex-row justify-center items-center"
-        >
-            {icon}
+        <TouchableOpacity onPress={onPress}>
+            <View
+                className="w-[50px] h-[50px] bg-neutral-50 rounded-full shadow flex-row justify-center items-center"
+                style={style}
+            >
+                {icon}
+            </View>
         </TouchableOpacity>
-    );
-};
+    )
+}
 
-export default FloatingButtonComponent;
+export default FloatingButtonComponent

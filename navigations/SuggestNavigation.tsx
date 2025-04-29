@@ -1,6 +1,6 @@
 import DetailPostScreen from '@/app/(tabs)/feed/[id]'
 import CollectionSuggestion from '@/app/(tabs)/suggest/collection_suggest'
-import DetailPublicSuggestion from '@/app/(tabs)/suggest/detail_suggestion'
+import DetailPublicSuggestion from '@/app/(share)/collection/components/CollectionItem'
 import Suggest from '@/app/(tabs)/suggest'
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'

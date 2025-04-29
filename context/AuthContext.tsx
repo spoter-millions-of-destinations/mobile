@@ -1,40 +1,53 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { User } from '@/services/user.service'
 import userService from '@/services/user.service'
-import { router, useRouter } from 'expo-router'
+import { router } from 'expo-router'
+import { useMutation } from '@tanstack/react-query'
+import { Loading } from '@/components'
+import { View } from 'react-native'
 
 // Define the UserContext type
 type UserContextType = {
     user: User | null
     updateUser: (newUserInfo: User) => void
+    loading: boolean
 }
 
 // Create the context
 export const UserContext = createContext<UserContextType>({
     user: null,
-    updateUser: () => {}, // Placeholder
+    updateUser: () => {},
+    loading: false,
 })
 
 // Provider component
 export const UserProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null)
 
+    const { mutate, isPending } = useMutation({
+        mutationFn: userService.getMyInfo,
+        onSuccess: (data) => {
+            setUser(data)
+        },
+        onError: (error) => {
+            console.log('Chưa login, chuyển hướng tới /auth/login')
+            setUser(null)
+        },
+    })
+
     const updateUser = (newUserInfo: User) => {
         setUser(newUserInfo)
     }
 
     useEffect(() => {
-        ;(async () => {
-            try {
-                const data = await userService.getMyInfo()
-                setUser(data)
-                router.replace('/(tabs)/feed')
-            } catch (err) {
-                console.log('Chưa login, chuyển hướng tới /auth/login')
-                router.replace('/auth/login')
-            }
-        })()
-    }, [])
-
-    return <UserContext.Provider value={{ user, updateUser }}>{children}</UserContext.Provider>
+        mutate()
+    }, [mutate])
+    if (isPending) {
+        return (
+            <View className="items-center justify-center flex-1 w-full h-full">
+                <Loading />
+            </View>
+        )
+    }
+    return <UserContext.Provider value={{ user, updateUser, loading: isPending }}>{children}</UserContext.Provider>
 }
