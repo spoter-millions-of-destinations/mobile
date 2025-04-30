@@ -1,11 +1,13 @@
 import axios from 'axios'
 
 import { getDataFromStorage } from '@/helpers/storage'
+console.log('axiosClient', process.env.EXPO_PUBLIC_API_URL)
 
 const axiosClient = axios.create({
-    baseURL: process.env.EXPO_PUBLIC_API_URL,
+    baseURL: 'https://spoter-be.onrender.com/api/v1',
     headers: {
-        'content-type': 'application/json',
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
     },
 })
 
@@ -32,7 +34,7 @@ axiosClient.interceptors.response.use(
         return response
     },
     (error) => {
-        console.log(error)
+        console.error(error)
         if (error.response) {
             console.error('API error:', error.response.data)
             throw error.response.data

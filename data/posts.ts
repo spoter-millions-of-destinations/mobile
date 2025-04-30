@@ -120,3 +120,38 @@ export const _posts: Post[] = [
         longitude: '107.9963',
     },
 ]
+const posts = [
+    {
+        description:
+            'Chùa Linh Ứng trên bán đảo Sơn Trà là nơi tâm hồn tìm về chốn an yên. Không gian thanh tịnh, tiếng chuông chùa vang vọng khiến tôi cảm thấy bình an và hy vọng.',
+        images: ['https://tadivui.com/wp-content/uploads/2024/02/chua-linh-ung-mandy411322005.jpg'],
+        longitude: 108.2789,
+        latitude: 16.1012,
+        rate: 4,
+    },
+    {
+        description:
+            'Rạn Nam Ô là viên ngọc ẩn của Đà Nẵng. Những tảng đá phủ rêu xanh, sóng biển vỗ mạnh, tôi cảm nhận sự hoang sơ và mạnh mẽ của thiên nhiên, như được tiếp thêm năng lượng.',
+        images: ['https://mytourcdn.com/upload_images/Image/Location/11_10_2016/8/bai-ran-nam-o-da-nang-mytour-11.jpg'],
+        longitude: 108.1947,
+        latitude: 16.1201,
+        rate: 4,
+    },
+
+    {
+        description:
+            'Hồ Hòa Trung là nơi thiên nhiên ban tặng sự tĩnh lặng. Mặt hồ phẳng lặng, cỏ xanh mướt, tôi cảm thấy như được thả hồn vào một thế giới không vướng bận.',
+        images: ['https://motogo.vn/wp-content/uploads/2020/04/afac1a8e27cfce9197de-min.jpg'],
+        longitude: 108.1223,
+        latitude: 16.1418,
+        rate: 4,
+    },
+    {
+        description:
+            'Vincom Plaza Đà Nẵng là nơi nhịp sống hiện đại trỗi dậy. Dạo quanh trung tâm mua sắm, thưởng thức cà phê, tôi cảm thấy năng động và hòa mình vào sự phát triển của thành phố.',
+        images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwQTS7CZjTWdkF6f3f8oX-gCd8uvHb_5ONWg&s'],
+        longitude: 108.2245,
+        latitude: 16.0712,
+        rate: 4,
+    },
+]

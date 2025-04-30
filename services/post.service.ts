@@ -12,8 +12,8 @@ export type Post = {
     createdAt: string
     updatedAt: string
     user: Pick<User, 'id' | 'name' | 'avatar'>
-    likes: number
-    comments: number
+    likes?: number
+    comments?: number
     attraction: {
         id: number
         name: string
@@ -31,6 +31,17 @@ export type Post = {
         updatedAt: string
     } | null
 }
+export type PostsQuery = {
+    limit: number
+    offset: number
+    userId?: number
+    attractionId?: string
+    search?: string
+    longitude?: string | number
+    latitude?: string | number
+    radius?: number
+    rate?: number
+}
 const postService = {
     createPost: (data: Pick<Post, 'description' | 'images' | 'longitude' | 'latitude' | 'rate'>) => {
         return axiosClient.post('/posts', data)
@@ -43,6 +54,8 @@ const postService = {
             params: { userId, offset, limit },
         })
     },
+
+    getAllFeedByQuery: (query: PostsQuery): Promise<Post[]> => axiosClient.get(`/posts`, { params: query }),
 
     getPostsOfAttraction: async (offset: string, limit: string, attractionId: string): Promise<Post[]> => {
         return axiosClient.get('/posts', {

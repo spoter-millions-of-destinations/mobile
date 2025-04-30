@@ -1,5 +1,5 @@
 import { Loading } from '@/components'
-import { usePostQuery } from '@/hooks/usePostsQuery'
+import { usePostQuery } from '@/hooks/usePostsOfUserQuery'
 import { Image } from 'expo-image'
 import { TouchableOpacity, useWindowDimensions } from 'react-native'
 import { Tabs } from 'react-native-collapsible-tab-view'

@@ -13,7 +13,7 @@ import { Image } from 'expo-image'
 import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location'
 import { scheduleNotificationAsync } from 'expo-notifications'
 import { router } from 'expo-router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 
@@ -21,6 +21,7 @@ const CreatePostScreen = () => {
     const [caption, setCaption] = useState('')
     const { user } = React.useContext(UserContext)
     const postStore = usePostStore()
+
     useHideBottonTab()
     const handleCreatePost = async () => {
         try {
@@ -102,7 +103,7 @@ const CreatePostScreen = () => {
             </View>
             <ScrollView>
                 <View className="flex-col justify-between flex-1">
-                    <View className="flex-1">
+                    <View className="flex-1 mb-3">
                         <UserInfo disableAdd={true} user={user as User} textDark={true} />
                         <TextInput
                             multiline
@@ -112,7 +113,7 @@ const CreatePostScreen = () => {
                             placeholderTextColor={'#525252'}
                             onChangeText={setCaption}
                         />
-                        <View className="rounded-2xl shadow-[0px_2px_20px_0px_rgba(0,0,0,0.25)] items-center flex-row justify-center w-full">
+                        <View className="rounded-2xl shadow-[0px_2px_2px_0px_rgba(0,0,0,0.25)] items-center flex-row justify-center w-full">
                             <Image
                                 source={{ uri: postStore.image?.uri }}
                                 style={{

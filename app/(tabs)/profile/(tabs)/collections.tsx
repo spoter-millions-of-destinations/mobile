@@ -2,9 +2,10 @@ import Loading from '@/components/Loading'
 import collectionService from '@/services/collection.service'
 import React from 'react'
 
-import { Collection as CollectionComponent } from '@/components/Collection'
+import { Collection as CollectionComponent } from '@/app/(tabs)/profile/_components/Collection'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Tabs } from 'react-native-collapsible-tab-view'
+import { router } from 'expo-router'
 type Props = {
     userId: number
 }
@@ -28,7 +29,7 @@ const UserCollections = ({ userId }: Props) => {
     })
 
     const collections = data?.pages.flat() ?? []
-    console.log('collections', collections)
+
     if (isLoading) {
         return <Loading />
     }
@@ -41,12 +42,15 @@ const UserCollections = ({ userId }: Props) => {
                 <CollectionComponent
                     key={item.id}
                     data={item}
-                    // onPress={() =>
-                    //     router.push('detail-collection', {
-                    //         collectionId: collection.id,
-                    //         collectionName: collection.name,
-                    //     })
-                    // }
+                    onPress={() =>
+                        router.push({
+                            pathname: '/(share)/collection/[id]',
+                            params: {
+                                id: JSON.stringify(item.id),
+                                data: JSON.stringify(item),
+                            },
+                        })
+                    }
                 />
             )}
             onEndReached={() => {
