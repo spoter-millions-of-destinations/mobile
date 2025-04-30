@@ -2,7 +2,7 @@ import { Loading } from '@/components'
 import { usePostQuery } from '@/hooks/usePostsOfUserQuery'
 import { Post } from '@/services/post.service'
 import { Tabs } from 'react-native-collapsible-tab-view'
-import { Post as PostComponent } from '../components/Post'
+import { Post as PostComponent } from '../_components/Post'
 
 function UserPosts({ userId }: { userId: number }) {
     const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = usePostQuery(userId)

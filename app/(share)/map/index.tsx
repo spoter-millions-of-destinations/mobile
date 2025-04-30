@@ -14,16 +14,18 @@ import postService, { Post, PostsQuery } from '@/services/post.service'
 import { useQuery } from '@tanstack/react-query'
 import { router, useLocalSearchParams } from 'expo-router'
 import { Image } from 'expo-image'
+import { useNavigatHelper } from '@/hooks/useNavigateHelper'
 
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_PUBLIC_KEY_MAPBOX || '')
 
 const MapScreen = () => {
-    const { data } = useLocalSearchParams()
-    console.log(data)
-
-    const post: Post | null = useMemo(() => (data ? (JSON.parse(data as string) as Post) : null), [data])
-    const navigation = useNavigation()
+    const { data, from } = useLocalSearchParams()
+    const coords: [number, number] | null = useMemo(
+        () => (data ? (JSON.parse(data as string) as [number, number]) : null),
+        [data],
+    )
     const { user } = React.useContext(UserContext)
+    const { goToSearchDestination, showPostPin, showAttractionPin } = useNavigatHelper()
 
     const [urlMap, setUrlMap] = useState('mapbox://styles/phuocnguyen12/clz04sn5800gn01pheoolchfd')
     const [zoomLevel, setZoomLevel] = useState(50)
@@ -81,8 +83,8 @@ const MapScreen = () => {
                 console.log('Permission to access location was denied')
                 return
             }
-            if (post) {
-                setUserLocation([+post.longitude, +post.latitude])
+            if (coords) {
+                setUserLocation([+coords[0], +coords[1]])
             } else {
                 let {
                     coords: { longitude, latitude },
@@ -110,63 +112,6 @@ const MapScreen = () => {
                     console.log(e)
                 }}
             >
-                {/* <SafeAreaView className="z-20">
-                    <View className="flex-col items-end justify-between px-6 ">
-                        <View>
-                            <View className="flex-row px-[20px] py-2 bg-neutral-50 rounded-[35px] shadow items-center w-full justify-between mb-[15]">
-                                <View className="flex-row items-center justify-center">
-                                    <PinMap className="mr-5" />
-                                    <TouchableOpacity className="" onPress={() => {}}>
-                                        <Text className="text-neutral-500 text-sm font-normal font-['Montserrat']">
-                                            Search here...
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View className="flex-row items-center justify-center">
-                                    <Microphone className="mr-5" />
-                                    <Image
-                                        source={user!.avatar}
-                                        style={{
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 50,
-                                        }}
-                                    />
-                                </View>
-                            </View>
-                            <View className="flex-row justify-between">
-                                <FloatingButtonComponent icon={<BackRightToLeft />} onPress={() => router.back()} />
-                                {selectedLoaction && (
-                                    <View className="w-[181px] h-[54px] px-5 py-[11px] bg-neutral-50 rounded-[15px] shadow justify-between items-center flex-row">
-                                        <TouchableOpacity>
-                                            <Text className="text-center text-[#4371e8] text-base font-semibold font-['Montserrat']">
-                                                Post
-                                            </Text>
-                                        </TouchableOpacity>
-                                        <LineDart />
-                                        <TouchableOpacity>
-                                            <Text className="text-center text-neutral-500 text-sm font-normal font-['Montserrat']">
-                                                Infomation
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                )}
-                                <SelectMapModal urlMap={urlMap} setUrlMap={setUrlMap} />
-                            </View>
-                        </View>
-                        <View className="relative z-20 top-[600]">
-                            <FloatingButtonComponent
-                                style={{
-                                    marginBottom: 20,
-                                }}
-                                icon={<Save />}
-                                onPress={() => {}}
-                            />
-
-                            <FloatingButtonComponent onPress={() => {}} icon={<Navigation />} />
-                        </View>
-                    </View>
-                </SafeAreaView> */}
                 {posts &&
                     posts.map((post, index) => (
                         <PointAnnotation
@@ -175,12 +120,7 @@ const MapScreen = () => {
                             coordinate={[+post.longitude, +post.latitude]}
                             onSelected={() => {
                                 setSelectedLoaction(post)
-                                router.push({
-                                    pathname: '/(share)/map/post_pin',
-                                    params: {
-                                        data: JSON.stringify(post),
-                                    },
-                                })
+                                showPostPin(post)
                             }}
                         >
                             <ImageBackground
@@ -202,15 +142,7 @@ const MapScreen = () => {
                             key={`point-${index}`}
                             id={`point-${index}`}
                             coordinate={[+attraction.longitude, +attraction.latitude]}
-                            onSelected={() =>
-                                router.push({
-                                    pathname: '/(share)/map/attraction_pin',
-                                    params: {
-                                        data: JSON.stringify(attraction),
-                                        dataType: 'attraction',
-                                    },
-                                })
-                            }
+                            onSelected={() => showAttractionPin(attraction)}
                         >
                             <View className="relative">
                                 <Pin5 width={40} height={40} />
@@ -244,10 +176,10 @@ const MapScreen = () => {
                 <View className="flex-col items-end justify-between px-6">
                     {/* Search bar */}
 
-                    <View className="flex-row pl-3 pr-3 py-2 bg-neutral-50 rounded-[35px] shadow items-center justify-between w-full mt-2">
-                        <View className="flex-row items-center gap-x-3">
-                            <PinMap className="mr-5" />
-                            <TouchableOpacity onPress={() => {}}>
+                    <View className="flex-row px-3 py-2 bg-neutral-50 rounded-[35px] shadow items-center justify-between w-full mt-2">
+                        <View className="flex-row items-center ml-2 gap-x-3">
+                            <PinMap />
+                            <TouchableOpacity onPress={() => goToSearchDestination()}>
                                 <Text className="text-sm font-normal text-neutral-500">Search here...</Text>
                             </TouchableOpacity>
                         </View>

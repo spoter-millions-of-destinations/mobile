@@ -2,12 +2,12 @@ import { MaterialTabBar, Tabs } from 'react-native-collapsible-tab-view'
 import UserCollections from './(tabs)/collections'
 import UserImages from './(tabs)/images'
 import UserPosts from './(tabs)/posts'
-import UserProfile from './components/UserProfile'
+import UserProfile from './_components/UserProfile'
 
 import { ContainerComponent } from '@/components'
 import { useState } from 'react'
 import { SafeAreaView } from 'react-native'
-import { CustomTabItem } from './components'
+import { CustomTabItem } from './_components'
 
 type Props = {
     userId: number

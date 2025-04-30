@@ -21,7 +21,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Image } from 'expo-image'
 import { router, useLocalSearchParams } from 'expo-router'
 import Loading from '../../../components/Loading'
-import CommentComponent from './components/Comment'
+import CommentComponent from './_components/Comment'
 import { Post } from '@/services/post.service'
 import { useNavigatHelper } from '@/hooks/useNavigateHelper'
 
@@ -118,7 +118,7 @@ const DetailPostScreen = () => {
                         </View>
                     </View>
                     <View className="flex-row items-center gap-x-4">
-                        <TouchableOpacity onPress={() => goToMap(post, 'detail_post')}>
+                        <TouchableOpacity onPress={() => goToMap([+post.longitude, +post.latitude], 'detail_post')}>
                             <Navigation />
                         </TouchableOpacity>
                         <TouchableOpacity

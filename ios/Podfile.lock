@@ -3,7 +3,7 @@ PODS:
   - DoubleConversion (1.1.6)
   - EXApplication (6.0.2):
     - ExpoModulesCore
-  - EXConstants (17.0.3):
+  - EXConstants (17.0.8):
     - ExpoModulesCore
   - EXImageLoader (5.0.0):
     - ExpoModulesCore
@@ -226,7 +226,7 @@ PODS:
     - ExpoModulesCore
   - ExpoBlur (14.0.1):
     - ExpoModulesCore
-  - ExpoCamera (16.0.14):
+  - ExpoCamera (16.0.18):
     - ExpoModulesCore
     - ZXingObjC/OneD
     - ZXingObjC/PDF417
@@ -1611,7 +1611,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-pager-view (6.7.0):
+  - react-native-pager-view (6.7.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1632,7 +1632,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context (5.4.0):
+  - react-native-safe-area-context (4.12.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1645,8 +1645,8 @@ PODS:
     - React-featureflags
     - React-graphics
     - React-ImageManager
-    - react-native-safe-area-context/common (= 5.4.0)
-    - react-native-safe-area-context/fabric (= 5.4.0)
+    - react-native-safe-area-context/common (= 4.12.0)
+    - react-native-safe-area-context/fabric (= 4.12.0)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-rendererdebug
@@ -1655,7 +1655,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/common (5.4.0):
+  - react-native-safe-area-context/common (4.12.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1676,7 +1676,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/fabric (5.4.0):
+  - react-native-safe-area-context/fabric (4.12.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2034,7 +2034,7 @@ PODS:
     - React-logger
     - React-perflogger
     - React-utils (= 0.76.9)
-  - RNCAsyncStorage (2.1.0):
+  - RNCAsyncStorage (2.1.2):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2055,7 +2055,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNFlashList (1.7.3):
+  - RNFlashList (1.8.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2297,6 +2297,27 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNVectorIcons (10.2.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.10.14.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - SDWebImage (5.19.7):
     - SDWebImage/Core (= 5.19.7)
   - SDWebImage/Core (5.19.7)
@@ -2423,6 +2444,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -2655,6 +2677,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -2662,7 +2686,7 @@ SPEC CHECKSUMS:
   boost: 1dca942403ed9342f98334bf4c3621f011aa7946
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
   EXApplication: 4c72f6017a14a65e338c5e74fca418f35141e819
-  EXConstants: 277129d9a42ba2cf1fad375e7eaa9939005c60be
+  EXConstants: fcfc75800824ac2d5c592b5bc74130bad17b146b
   EXImageLoader: e5da974e25b13585c196b658a440720c075482d5
   EXJSONUtils: 01fc7492b66c234e395dcffdd5f53439c5c29c93
   EXManifests: a19d50504b8826546a4782770317bc83fffec87d
@@ -2674,7 +2698,7 @@ SPEC CHECKSUMS:
   expo-dev-menu-interface: 00dc42302a72722fdecec3fa048de84a9133bcc4
   ExpoAsset: 6f7a8887cbb9fb39fdb0808e7f6f74ba0e1ae9b6
   ExpoBlur: 2b92367da8158eeaee9bfa940d82512a09c8e0c6
-  ExpoCamera: 5b48734e47a2e8fa6fc16835531fcf97cbf9e0e2
+  ExpoCamera: 0a3e78de7b1ca8c438ee6784fa6f22c5b1b36966
   ExpoFileSystem: a38e1bb58d77f41717293a7b73ebd4014d8cb8dd
   ExpoFont: b089994dac1fe603deda1cec151e32c81f46c2f1
   ExpoHaptics: f8eacde90398b8be3648ed823b6e9e6bf87ece3f
@@ -2734,8 +2758,8 @@ SPEC CHECKSUMS:
   React-logger: c4052eb941cca9a097ef01b59543a656dc088559
   React-Mapbuffer: 33546a3ebefbccb8770c33a1f8a5554fa96a54de
   React-microtasksnativemodule: d80ff86c8902872d397d9622f1a97aadcc12cead
-  react-native-pager-view: 07588127199ef1a055549d5cdd19cacd9ddca390
-  react-native-safe-area-context: c68127652d8b9a26a28ac9597167a3ad90bcd713
+  react-native-pager-view: 037f840721979489b44aed1432f9382556e46781
+  react-native-safe-area-context: cd916088cac5300c3266876218377518987b995e
   react-native-slider: e4b7f9d0616032ec2909ba073731eabcde242256
   react-native-webview: 6b9fc65c1951203a3e958ff3cc0a858d4b6be901
   React-nativeconfig: 8efdb1ef1e9158c77098a93085438f7e7b463678
@@ -2765,13 +2789,14 @@ SPEC CHECKSUMS:
   React-utils: ed818f19ab445000d6b5c4efa9d462449326cc9f
   ReactCodegen: f853a20cc9125c5521c8766b4b49375fec20648b
   ReactCommon: 300d8d9c5cb1a6cd79a67cf5d8f91e4d477195f9
-  RNCAsyncStorage: 3b2883683574f9f64ebba49cec80c9854215cff7
-  RNFlashList: 648e2273693600985aaa72a2ef4700e815500901
+  RNCAsyncStorage: ab0ad9a78ead8b9f143f0238a5aa535777b12e65
+  RNFlashList: 0dbea8359f8d0fb99c416ca09b91203ff65e26cc
   RNGestureHandler: fffddeb8af59709c6d8de11b6461a6af63cad532
   rnmapbox-maps: dc814adf1a4675b35e168a5ea327234b265b2d5d
   RNReanimated: cfcf747a2b6d03e334d7a253da37722f55831b8b
   RNScreens: 362f4c861dd155f898908d5035d97b07a3f1a9d1
   RNSVG: 3a1cce2e940268a7d3554e3cf2bbd2195871f4fe
+  RNVectorIcons: 3bf5f38dcb1aaf587c4101e9f3fcad5c8f5a88b2
   SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
   SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c

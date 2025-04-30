@@ -2,7 +2,7 @@ import Loading from '@/components/Loading'
 import collectionService from '@/services/collection.service'
 import React from 'react'
 
-import { Collection as CollectionComponent } from '@/app/(tabs)/profile/components/Collection'
+import { Collection as CollectionComponent } from '@/app/(tabs)/profile/_components/Collection'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Tabs } from 'react-native-collapsible-tab-view'
 import { router } from 'expo-router'

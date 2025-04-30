@@ -8,10 +8,11 @@ import * as ImagePicker from 'expo-image-picker'
 import { router } from 'expo-router'
 import React from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { CollectionPeopleListItem } from './components/CollectionPeople'
-import { Input } from './components/Input'
+
+import { Input } from './_components/Input'
 import { CameraCapturedPicture } from 'expo-camera'
 import fileService from '@/services/file.service'
+import { CollectionPeopleListItem } from './_components/CollectionPeople'
 const CreateCollection = () => {
     const [data, setData] = React.useState({
         name: '',

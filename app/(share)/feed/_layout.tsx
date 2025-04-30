@@ -1,15 +1,11 @@
 import { Stack } from 'expo-router'
 
-export const FeedLayout = () => {
+export default function FeedLayout() {
     return (
         <Stack
             screenOptions={{
                 headerShown: false,
             }}
-        >
-            <Stack.Screen name="collection/[id]" />
-            <Stack.Screen name="feed/[id]" />
-            <Stack.Screen name="map" />
-        </Stack>
+        ></Stack>
     )
 }

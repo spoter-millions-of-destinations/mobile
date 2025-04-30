@@ -111,7 +111,7 @@ const PostCard = ({ post }: { post: Post }) => {
                         </View>
                         <View className="flex-row" style={{ gap: 9 }}>
                             <Button
-                                onPress={() => goToMap(post, 'detail_post')}
+                                onPress={() => goToMap([+post.longitude, +post.latitude], 'detail_post')}
                                 icon={<Ionicons name="paper-plane-outline" size={20} color="white" />}
                             />
 

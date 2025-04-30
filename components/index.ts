@@ -3,8 +3,8 @@ export { AccordionItem } from './AccordionItem'
 export { default as BottomSheetMap } from './BottomSheetMap'
 export { default as Checkbox } from './Checkbox'
 
-export { Collection } from '../app/(tabs)/profile/components/Collection'
-export { default as Comment } from '../app/(share)/feed/components/Comment'
+export { Collection } from '../app/(tabs)/profile/_components/Collection'
+export { default as Comment } from '../app/(share)/feed/_components/Comment'
 export { default as ContainerComponent } from './ContainerComponent'
 
 export { default as FloatingButtonComponent } from './FloatingButtonComponent'

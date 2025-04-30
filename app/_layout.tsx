@@ -11,12 +11,13 @@ import { UserContext, UserProvider } from '@/context/AuthContext'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import { fonts } from '@/assets/fonts/fonts'
+import { Loading } from '@/components'
 import { QueryClient } from '@tanstack/react-query'
 import * as Notifications from 'expo-notifications'
-import { router, Slot, Stack, usePathname } from 'expo-router'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { router, Stack, usePathname } from 'expo-router'
+import { View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
-import { Loading } from '@/components'
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -47,7 +48,11 @@ function LayoutContent() {
     }, [user, loading])
 
     if (loading) {
-        return <Loading />
+        return (
+            <View className="items-center justify-center flex-1 bg-white">
+                <Loading />
+            </View>
+        )
     }
 
     return (

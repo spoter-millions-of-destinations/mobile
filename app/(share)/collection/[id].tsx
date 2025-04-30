@@ -9,7 +9,7 @@ import ContainerComponent from '../../../components/ContainerComponent'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useQuery } from '@tanstack/react-query'
 import { Loading } from '@/components'
-import { CollectionItem } from './components/CollectionItem'
+import { CollectionItem } from './_components/CollectionItem'
 
 const DetailCollection = () => {
     const { data } = useLocalSearchParams()

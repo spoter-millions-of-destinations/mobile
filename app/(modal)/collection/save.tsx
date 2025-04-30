@@ -6,8 +6,8 @@ import { useQuery } from '@tanstack/react-query'
 import { router, useLocalSearchParams } from 'expo-router'
 import React, { useContext } from 'react'
 import { FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { CollectionItem } from './components/CollectionItem'
-import { SaveHeader } from './components/SaveHeader'
+import { CollectionItem } from './_components/CollectionItem'
+import { SaveHeader } from './_components/SaveHeader'
 import { useNavigatHelper } from '@/hooks/useNavigateHelper'
 
 const SaveScreen = () => {

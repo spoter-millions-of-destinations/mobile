@@ -7,7 +7,7 @@ import { Rating } from 'react-native-ratings'
 import { BackLeftToRight } from '@/assets/images/Button'
 import { Bookmark, BookSaved, Heart, Icon, Message } from 'iconsax-react-native'
 
-import CommentComponent from '@/app/(share)/feed/components/Comment'
+import CommentComponent from '@/app/(share)/feed/_components/Comment'
 import PostMapComponent from '@/app/(share)/map/components/PostMapComponent'
 import commentService from '@/services/comment.service'
 import Loading from '@/components/Loading'

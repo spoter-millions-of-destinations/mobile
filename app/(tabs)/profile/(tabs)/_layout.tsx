@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router'
 import { View, ScrollView } from 'react-native'
-import UserProfile from '../components/UserProfile'
+import UserProfile from '../_components/UserProfile'
 
 export default function TabsLayout() {
     return (
