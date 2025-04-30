@@ -7,6 +7,17 @@ export default function AuthLayout() {
                 headerShown: false,
                 contentStyle: { backgroundColor: 'white' },
             }}
-        />
+        >
+            <Stack.Screen
+                name="login"
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen name="register" />
+
+            <Stack.Screen name="StartScreen" />
+            <Stack.Screen name="validation_code" />
+        </Stack>
     )
 }

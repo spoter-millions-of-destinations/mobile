@@ -1,46 +1,32 @@
-import {
-    View,
-    Text,
-    SafeAreaView,
-    FlatList,
-    TextInput,
-    TouchableOpacity,
-} from "react-native";
-import React from "react";
-import collectionService from "@/services/collection.service";
+import { View, Text, SafeAreaView, FlatList, TextInput, TouchableOpacity } from 'react-native'
+import React from 'react'
+import collectionService from '@/services/collection.service'
 
-import Loading from "../../../components/Loading";
-import { useNavigation } from "@react-navigation/native";
-import {
-    Collection as CollectionIcon,
-    Filter,
-    KinhLup,
-} from "@/assets/images/Button";
-import { Icon } from "iconsax-react-native";
-import Collection from "@/components/Collection";
+import Loading from '../../../components/Loading'
+import { useNavigation } from '@react-navigation/native'
+import { Collection as CollectionIcon, Filter, KinhLup } from '@/assets/images/Button'
+import { Icon } from 'iconsax-react-native'
+
 
 const CollectionSuggestion = () => {
-    const [collections, setCollections] = React.useState([]);
-    const [isLoading, setIsLoading] = React.useState(true);
-    const navigation = useNavigation();
+    const [collections, setCollections] = React.useState([])
+    const [isLoading, setIsLoading] = React.useState(true)
+    const navigation = useNavigation()
     React.useEffect(() => {
-        (async () => {
+        ;(async () => {
             try {
-                setIsLoading(true);
-                const data = await collectionService.getPublicCollections(
-                    0,
-                    100
-                );
+                setIsLoading(true)
+                const data = await collectionService.getPublicCollections(0, 100)
 
-                setCollections(data.data);
+                setCollections(data.data)
             } catch (error) {
-                console.log(error);
+                console.log(error)
             } finally {
-                setIsLoading(false);
+                setIsLoading(false)
             }
-        })();
-    }, []);
-    console.log(collections);
+        })()
+    }, [])
+    console.log(collections)
     return (
         <SafeAreaView className="flex-1">
             <View className="px-6">
@@ -50,17 +36,14 @@ const CollectionSuggestion = () => {
                             <KinhLup class="w-1 h-1" />
                         </View>
 
-                        <TextInput
-                            className="flex-1 ml-5"
-                            placeholder="Seach here"
-                        />
+                        <TextInput className="flex-1 ml-5" placeholder="Seach here" />
                         <TouchableOpacity onPress={() => setModalVisible(true)}>
                             <Filter />
                         </TouchableOpacity>
                     </View>
                     <View>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate("suggests")}
+                            onPress={() => navigation.navigate('suggests')}
                             className="w-[50px] h-[50px]  rounded-[25px] border border-neutral-300 flex-col justify-center items-center "
                         >
                             <CollectionIcon />
@@ -76,15 +59,11 @@ const CollectionSuggestion = () => {
                             <Collection
                                 data={item}
                                 onPress={() =>
-                                    navigation.navigate(
-                                        "detail-suggest-public-collection",
-                                        {
-                                            collectionId: item.id,
-                                            collectionName: item.name,
-                                            collectionDescription:
-                                                item.description,
-                                        }
-                                    )
+                                    navigation.navigate('detail-suggest-public-collection', {
+                                        collectionId: item.id,
+                                        collectionName: item.name,
+                                        collectionDescription: item.description,
+                                    })
                                 }
                             />
                         )}
@@ -92,7 +71,7 @@ const CollectionSuggestion = () => {
                 )}
             </View>
         </SafeAreaView>
-    );
-};
+    )
+}
 
-export default CollectionSuggestion;
+export default CollectionSuggestion
