@@ -1,28 +1,28 @@
-import { Image, ImageBackground } from "expo-image";
+import { Image, ImageBackground } from 'expo-image'
 
-import React from "react";
-import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
-import {
-    BackLeftToRight,
-    Challenge as ChallengeIcon,
-    Coin,
-    Wallet,
-} from "@/assets/images/Button";
-import { missions } from "@/data/missions";
-import MissionComponent from "@/components/MissionComponent";
+import { Challenge as ChallengeIcon, Coin, Wallet } from '@/assets/images/Button'
+import MissionComponent from '@/components/MissionComponent'
+import { missions } from '@/data/missions'
+import React from 'react'
+import { ScrollView, Text, View } from 'react-native'
+import { Button } from './_components/Button'
 const Challenge = () => {
     return (
         <View className="flex-1 bg-white">
             <ScrollView showsVerticalScrollIndicator={false}>
+                {/* HEADER */}
                 <ImageBackground
+                    style={{
+                        height: 210,
+                        width: '100%',
+                        borderBottomLeftRadius: 50,
+                        borderBottomRightRadius: 50,
+                        justifyContent: 'center',
+                        padding: 24,
+                        marginBottom: 73,
+                    }}
                     className="h-[210] rounded-bl-[50] rounded-br-[50] justify-center p-6  mb-[73]"
-                    source={require("@/assets/images/bg-challenge.jpg")}
+                    source={require('@/assets/images/bg-challenge.jpg')}
                 >
                     <View className="relative">
                         <Text className="text-neutral-50 text-2xl font-semibold font-['Montserrat'] ">
@@ -32,7 +32,7 @@ const Challenge = () => {
                             You got a new Mission
                         </Text>
                         <View className="h-[100px] w-full bg-neutral-50 rounded-[15px] shadow items-center flex-row justify-between px-5 mb-5 absolute bottom-[-300%] transform -translate-x-1/2 ">
-                            <View className="flex-row gap-x-4">
+                            <View className="flex-row items-center justify-center gap-x-4">
                                 <ChallengeIcon />
                                 <Text className="text-black text-sm font-semibold font-['Montserrat'] leading-none">
                                     Rewards
@@ -48,8 +48,8 @@ const Challenge = () => {
                                             width: 40,
                                             height: 40,
                                         }}
-                                        resizeMode="cover"
-                                        source={require("@/assets/images/token.jpg")}
+                                        contentFit="cover"
+                                        source={require('@/assets/images/token.jpg')}
                                     />
                                 </View>
                                 <Text className="text-black text-[10px] font-normal font-['Montserrat']">
@@ -60,17 +60,9 @@ const Challenge = () => {
                     </View>
                 </ImageBackground>
                 <View className="flex-1 px-6">
-                    <View className="flex-row justify-between mb-[20]">
-                        <Button
-                            onPress={() => {}}
-                            icon={<Coin />}
-                            text={"Wallet"}
-                        />
-                        <Button
-                            onPress={() => {}}
-                            icon={<Wallet />}
-                            text={"Recharge"}
-                        />
+                    <View className="flex-row justify-between mb-[20] w-full items-center">
+                        <Button onPress={() => {}} icon={<Coin />} text={'Wallet'} />
+                        <Button onPress={() => {}} icon={<Wallet />} text={'Recharge'} />
                     </View>
                     <View>
                         <View className="mb-[15]">
@@ -85,26 +77,7 @@ const Challenge = () => {
                 </View>
             </ScrollView>
         </View>
-    );
-};
+    )
+}
 
-const Button = ({ icon, text, onPress }) => {
-    return (
-        <TouchableOpacity
-            className="px-[22] py-[27] flex-row justify-between items-center h-[130px] bg-white rounded-[25px] shadow border border-neutral-300 w-[45%]"
-            onPress={onPress}
-        >
-            <View>
-                {icon}
-                <Text className="mt-[22] text-neutral-800 text-base font-semibold font-['Montserrat'] leading-[18px]">
-                    {text}
-                </Text>
-            </View>
-            <BackLeftToRight />
-        </TouchableOpacity>
-    );
-};
-
-const styles = StyleSheet.create({});
-
-export default Challenge;
+export default Challenge
