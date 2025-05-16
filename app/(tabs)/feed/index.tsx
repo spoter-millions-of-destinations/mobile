@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { Ionicons } from '@expo/vector-icons'
-
 import { SafeAreaView, TouchableOpacity, View } from 'react-native'
 
 import postService, { Post } from '@/services/post.service'
@@ -11,38 +9,45 @@ import { FlashList } from '@shopify/flash-list'
 import { ContainerComponent, Loading, NotificationComponent } from '@/components'
 import PostCard from '@/app/(tabs)/feed/components/PostCard'
 import { Link } from 'expo-router'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
+
+const LIMIT = 10
 
 const NewFeed = () => {
-    const [modalVisible, setModalVisible] = React.useState(false)
     const {
         data: posts,
         isLoading,
-        isFetching,
+        isFetchingNextPage,
+        isRefetching,
         fetchNextPage,
         hasNextPage,
+        refetch,
     } = useInfiniteQuery({
         queryKey: ['posts'],
         staleTime: 1000 * 60 * 5,
         initialPageParam: 0,
         queryFn: async ({ pageParam }) => {
-            const data = await postService.getAllFeed(10, pageParam)
+            const data = await postService.getAllFeed(LIMIT + 1, pageParam)
             return data
         },
         getNextPageParam: (lastPage, allPages) => {
-            const nextPage = allPages.length * 10
-            if (lastPage.length < 10) {
-                return undefined
-            }
-            return nextPage
+            const totalLoaded = allPages.flat().length
+            console.log('Total loaded:', totalLoaded)
+
+            return totalLoaded 
         },
     })
 
     const handleEndReached = () => {
-        if (!isFetching && hasNextPage) {
+        if (!isFetchingNextPage && hasNextPage) {
             fetchNextPage()
         }
     }
+
+    const handleRefresh = async () => {
+        await refetch()
+    }
+
     const flatPosts = posts?.pages.flatMap((page) => page) ?? []
 
     return (
@@ -63,8 +68,9 @@ const NewFeed = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
+
                 {isLoading ? (
-                    <View className="items-center justify-center flex-1 w-full h-full flew-col">
+                    <View className="flex-col items-center justify-center flex-1 w-full h-full">
                         <Loading />
                     </View>
                 ) : (
@@ -73,12 +79,13 @@ const NewFeed = () => {
                             showsVerticalScrollIndicator={false}
                             data={flatPosts}
                             renderItem={({ item }: { item: Post }) => <PostCard post={item} />}
-                            estimatedItemSize={200} // Ước lượng kích thước mỗi PostCard (tùy chỉnh theo UI)
+                            estimatedItemSize={200}
                             onEndReached={handleEndReached}
-                            onEndReachedThreshold={0.5} // Kích hoạt khi cuộn đến 50% cuối danh sách
-                            ListFooterComponent={isFetching ? <Loading /> : null}
+                            onEndReachedThreshold={0.5}
+                            refreshing={isRefetching}
+                            onRefresh={handleRefresh}
+                            ListFooterComponent={isFetchingNextPage && hasNextPage ? <Loading /> : null}
                         />
-                        <NotificationComponent setModalVisible={setModalVisible} modalVisible={modalVisible} />
                     </ContainerComponent>
                 )}
             </View>

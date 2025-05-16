@@ -53,13 +53,7 @@ const CreatePostScreen = () => {
             }
 
             await postService.createPost(data)
-            await scheduleNotificationAsync({
-                content: {
-                    title: 'Đăng bài thành công 🎉',
-                    body: 'Bài viết của bạn đã được chia sẻ!',
-                },
-                trigger: null,
-            })
+            
             Toast.show({
                 type: 'success',
                 text1: 'Đăng bài thành công 🎉',
