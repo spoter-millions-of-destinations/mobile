@@ -1,6 +1,6 @@
 import { AccordionItem } from '@/components/AccordionItem'
 import { useAttractionMutation } from '@/hooks/useAttractionMutation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, SafeAreaView, ScrollView, Text, TouchableOpacity, View, Image } from 'react-native'
 import { ObjectItem } from './_components/ObjectItem'
 import { PackageForm } from './_components/PackageForm'
@@ -11,8 +11,10 @@ import * as ImagePicker from 'expo-image-picker'
 import fileService from '@/services/file.service'
 import { Add2 } from '@/assets/images/Button'
 import mapService from '@/services/map.service'
+import { usePaymentStore } from '@/store/usePaymentStore'
 
 const CreateAds: React.FC = () => {
+    const { isPaid, formData, clear, updateImageUrl } = usePaymentStore()
     const [idPackage, setIdPackage] = useState<number>(3)
     const [info, setInfo] = useState<Partial<AttractionInfo>>({
         description: '',
@@ -52,6 +54,10 @@ const CreateAds: React.FC = () => {
             Alert.alert('Missing Image', 'Please select an image')
             return
         }
+        if (!isPaid) {
+            Alert.alert('Payment Required', 'Please complete the payment process')
+            return
+        }
 
         setUploading(true)
         let imageUrl = ''
@@ -61,6 +67,7 @@ const CreateAds: React.FC = () => {
                 base64: image.base64 === null ? undefined : image.base64,
             }
             imageUrl = await fileService.uploadFile(imageToUpload)
+            updateImageUrl(imageUrl)
         } catch (error) {
             setUploading(false)
             Alert.alert('Error', 'Failed to upload image')
@@ -82,6 +89,8 @@ const CreateAds: React.FC = () => {
             onSuccess: () => {
                 Alert.alert('Success', 'Advertisement created successfully!')
                 setInfo({ description: '', address: '' })
+                setImage(null)
+                clear()
             },
             onError: (error) => {
                 Alert.alert('Error', 'Failed to create advertisement')
@@ -92,6 +101,18 @@ const CreateAds: React.FC = () => {
             },
         })
     }
+    useEffect(() => {
+        if (isPaid && formData) {
+            setInfo({
+                description: formData.description,
+                address: formData.address,
+            })
+            if (formData.image) {
+                setImage(formData.image)
+            }
+            setIdPackage(formData.idPackage)
+        }
+    }, [isPaid, formData])
 
     return (
         <SafeAreaView className="flex-1 bg-neutral-50">
@@ -151,7 +172,14 @@ const CreateAds: React.FC = () => {
                     border={true}
                     title={'4. Payment'}
                     description={'Select a payment method'}
-                    content={<PaymentItem idPackage={idPackage} />}
+                    content={
+                        <PaymentItem
+                            idPackage={idPackage}
+                            description={info.description || ''}
+                            address={info.address || ''}
+                            image={image}
+                        />
+                    }
                 />
                 <View className="flex-row items-center justify-between mt-4 mb-8">
                     <Text className="text-neutral-500 text-xs font-medium font-['Montserrat'] ">Final step</Text>

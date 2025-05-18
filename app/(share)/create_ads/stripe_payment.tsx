@@ -1,16 +1,30 @@
 import React, { useState } from 'react'
 import { SafeAreaView, Text, View } from 'react-native'
-
+import { useLocalSearchParams, router } from 'expo-router'
+import { WebView } from 'react-native-webview'
 import { Loading } from '@/components'
 import { useHideBottonTab } from '@/hooks'
-import { useLocalSearchParams } from 'expo-router'
-import { WebView } from 'react-native-webview'
+import { usePaymentStore } from '@/store/usePaymentStore'
+
 const StripeScreen = () => {
     const { data: uri } = useLocalSearchParams<{ data: string }>()
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [hasError, setHasError] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState(true)
+    const [hasError, setHasError] = useState(false)
+    const [redirecting, setRedirecting] = useState(false)
 
     useHideBottonTab()
+    const { setPaymentStatus } = usePaymentStore()
+    const handleNavigationChange = (navState: any) => {
+        const url = navState.url
+        if (url.includes('success-page/success') || url.includes('success-page/error')) {
+            setPaymentStatus(true)
+            setRedirecting(true)
+            setTimeout(() => {
+                router.replace('/(share)/create_ads')
+            }, 3000)
+        }
+    }
+
     if (!uri) {
         return (
             <SafeAreaView className="items-center justify-center flex-1">
@@ -18,8 +32,17 @@ const StripeScreen = () => {
             </SafeAreaView>
         )
     }
+
+    if (redirecting) {
+        return (
+            <SafeAreaView className="items-center justify-center flex-1 bg-white">
+                <Text className="text-lg font-medium text-neutral-600">Redirecting to your profile...</Text>
+            </SafeAreaView>
+        )
+    }
+
     return (
-        <SafeAreaView className="flex-1">
+        <SafeAreaView className="flex-1 bg-white">
             {isLoading && (
                 <View className="absolute z-10 items-center justify-center w-full h-full bg-white">
                     <Loading />
@@ -44,6 +67,7 @@ const StripeScreen = () => {
                     setHasError(true)
                     setIsLoading(false)
                 }}
+                onNavigationStateChange={handleNavigationChange}
             />
         </SafeAreaView>
     )

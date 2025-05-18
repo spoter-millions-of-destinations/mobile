@@ -5,22 +5,34 @@ import { TouchableOpacity, View, Text, Alert } from 'react-native'
 
 interface PaymentItemProps {
     idPackage: number
+    description: string
+    address: string
+    image: ImagePickerAsset | null
 }
-
-export const PaymentItem: React.FC<PaymentItemProps> = ({ idPackage }) => {
+import { usePaymentStore } from '@/store/usePaymentStore'
+import { ImagePickerAsset } from 'expo-image-picker'
+export const PaymentItem: React.FC<PaymentItemProps> = ({ idPackage, description, address, image }) => {
     const { mutateAsync: createCheckoutSession, isPending } = useStripePayment()
 
+    const { saveFormData, setPaymentStatus, isPaid } = usePaymentStore()
     const handlePayment = async () => {
         try {
             const res = await createCheckoutSession(idPackage)
+            saveFormData({
+                description,
+                address,
+                image,
+                idPackage,
+            })
 
             router.push({
                 pathname: '/(share)/create_ads/stripe_payment',
                 params: {
-                    data: res.data.checkoutUrl,
+                    data: res.checkoutUrl,
                 },
             })
         } catch (error) {
+            console.log(error)
             Alert.alert('Payment Error', 'Failed to initialize payment process.')
         }
     }
@@ -35,7 +47,7 @@ export const PaymentItem: React.FC<PaymentItemProps> = ({ idPackage }) => {
                             Stripe {isPending ? '(Processing...)' : ''}
                         </Text>
                         <Text className="text-neutral-400 text-xs font-normal font-['Montserrat']">
-                            Financial Infrastructure
+                            {isPaid ? 'Paid ✅' : 'Infrastructure'}
                         </Text>
                     </View>
                 </View>
