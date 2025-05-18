@@ -15,21 +15,18 @@ import { useQuery } from '@tanstack/react-query'
 import { router, useLocalSearchParams } from 'expo-router'
 import { Image } from 'expo-image'
 import { useNavigatHelper } from '@/hooks/useNavigateHelper'
+import { useUserLocation } from '@/hooks/useUserLocation'
 
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_PUBLIC_KEY_MAPBOX || '')
 
 const MapScreen = () => {
     const { data, from } = useLocalSearchParams()
-    const coords: [number, number] | null = useMemo(
-        () => (data ? (JSON.parse(data as string) as [number, number]) : null),
-        [data],
-    )
+    const { userLocation, setUserLocation } = useUserLocation({ data } as { data: string })
     const { user } = React.useContext(UserContext)
     const { goToSearchDestination, showPostPin, showAttractionPin } = useNavigatHelper()
 
     const [urlMap, setUrlMap] = useState('mapbox://styles/phuocnguyen12/clz04sn5800gn01pheoolchfd')
     const [zoomLevel, setZoomLevel] = useState(50)
-    const [userLocation, setUserLocation] = useState<[number, number]>([106.696, 10.776])
     const [selectedLoaction, setSelectedLoaction] = useState<Post | null>(null)
 
     const fetchPostsByZoomAndLocation = async ({
@@ -76,23 +73,6 @@ const MapScreen = () => {
         queryFn: () => attractionService.getAllAttractions(0, 100),
     })
 
-    useEffect(() => {
-        ;(async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync()
-            if (status !== 'granted') {
-                console.log('Permission to access location was denied')
-                return
-            }
-            if (coords) {
-                setUserLocation([+coords[0], +coords[1]])
-            } else {
-                let {
-                    coords: { longitude, latitude },
-                } = await Location.getCurrentPositionAsync({})
-                setUserLocation([108.181637, 16.0569])
-            }
-        })()
-    }, [])
     if (isLoading) return <Loading />
     return (
         <View className="flex-1">
