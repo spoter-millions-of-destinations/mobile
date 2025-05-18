@@ -40,7 +40,14 @@ const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style,
         },
     })
     return (
-        <TouchableOpacity onPress={() => router.push(`/profile/${user.id}`)}>
+        <TouchableOpacity
+            onPress={() =>
+                router.push({
+                    pathname: '/(share)/profile/[id]',
+                    params: { id: user.id },
+                })
+            }
+        >
             <View className="relative flex-row items-center" style={style}>
                 <Image
                     source={{

@@ -17,7 +17,7 @@ export default function ProfileScreen({ userId }: Props) {
     const [activeTab, setActiveTab] = useState(0)
 
     return (
-        <SafeAreaView className="flex-1">
+        <SafeAreaView className="flex-1 bg-white">
             <Tabs.Container
                 renderHeader={() => <UserProfile userId={userId} />}
                 headerContainerStyle={{ backgroundColor: '#FAFAFA' }}
