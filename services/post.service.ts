@@ -1,6 +1,7 @@
 // authService.js
 import axiosClient from './axiosClient'
 import { User } from './user.service'
+import { create } from 'zustand'
 export type Post = {
     id: number
     description: string
@@ -29,7 +30,17 @@ export type Post = {
         latitude: string | number
         createdAt: string
         updatedAt: string
+        advertisingPackage?: AdvertisingPackage
     } | null
+}
+export type AdvertisingPackage = {
+    id: number
+    name: string
+    description: string
+    image: string
+    price: number
+    createdAt: string
+    updatedAt: string
 }
 export type PostsQuery = {
     limit: number

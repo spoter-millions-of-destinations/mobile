@@ -3,7 +3,7 @@ import { ImageBackground, Text, View } from 'react-native'
 
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { getColors } from 'react-native-image-colors'
+import getColors from 'react-native-image-colors'
 
 import { BlurView } from 'expo-blur'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -25,7 +25,7 @@ const PostCard = ({ post }: { post: Post }) => {
         likes = Math.floor(Math.random() * 10000),
         comments = Math.floor(Math.random() * 10000),
         description,
-        attraction = {},
+        attraction,
     } = post
 
     const [liked, toggleLike] = useToggle(post.isFavorite, !post.isFavorite)
@@ -41,12 +41,19 @@ const PostCard = ({ post }: { post: Post }) => {
 
         ;(async () => {
             try {
-                const result = await getColors(images[0])
+                const result = (await getColors.getColors(images[0])) as {
+                    platform: 'android' | 'ios' | 'web'
+                    primary?: string
+                    detail?: string
+                    dominant?: string
+                    average?: string
+                    darkVibrant?: string
+                }
                 if (!mounted) return
 
                 const newColors =
                     result.platform === 'ios'
-                        ? { primary: result.primary, detail: result.detail }
+                        ? { primary: result.primary || '#ffffff', detail: result.detail || '#ffffff' }
                         : result.platform === 'android'
                         ? {
                               primary: result.dominant || '#ffffff',
@@ -90,7 +97,11 @@ const PostCard = ({ post }: { post: Post }) => {
                         imageStyle={{ borderRadius: 24 }}
                     >
                         <View className="flex-row justify-between">
-                            <UserInfo user={user} postTime={createdAt} />
+                            <UserInfo
+                                user={user}
+                                postTime={createdAt}
+                                isSponser={attraction?.advertisingPackage !== undefined}
+                            />
                             <Ionicons name="ellipsis-horizontal" size={24} color="white" />
                         </View>
                         <View className="flex-row justify-between">
