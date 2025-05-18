@@ -18,35 +18,39 @@ export const Collection = ({ data, onPress }: Props) => {
     const imageSize = (width - PADDING_HORIZONTAL * 2 - SPACING * 2) / 3
 
     return (
-        <View className="w-full mb-5">
+        <View className="flex-1 w-full mb-5">
             {/* header */}
-            <TouchableOpacity onPress={onPress} className="items-center justify-between px-[26] mb-[4] flex-row ">
-                <View>
-                    <Text className=" text-sm font-semibold font-['Montserrat'] text-neutral-700">{data.name}</Text>
-                    <Text className="text-neutral-500 text-xs font-normal font-['Montserrat']">{data.description}</Text>
+            <TouchableOpacity onPress={onPress}>
+                <View className="items-center justify-between pl-[26] mb-[4] flex-row relative">
+                    <View>
+                        <Text className=" text-sm font-semibold font-['Montserrat'] text-neutral-700">{data.name}</Text>
+                        <Text className="text-neutral-500 text-xs font-normal font-['Montserrat']">
+                            {data.description}
+                        </Text>
+                    </View>
+                    <View className="absolute flex-row items-center justify-center left-[320px]">
+                        <TouchableOpacity onPress={onPress}>
+                            <ChevronRight />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View className="mr-[30px]">
-                    <TouchableOpacity onPress={onPress}>
-                        <ChevronRight />
-                    </TouchableOpacity>
+
+                {/* images */}
+                <View className="flex-row flex-wrap items-center justify-start">
+                    {data.collectionItems.slice(0, 6).map((post, index) => (
+                        <Image
+                            key={index}
+                            source={post.post.images[0]}
+                            style={{
+                                width: imageSize,
+                                height: imageSize,
+                                margin: SPACING / 2,
+                                borderRadius: 10,
+                            }}
+                        />
+                    ))}
                 </View>
             </TouchableOpacity>
-
-            {/* images */}
-            <View className="flex-row flex-wrap items-center justify-start">
-                {data.collectionItems.slice(0, 6).map((post, index) => (
-                    <Image
-                        key={index}
-                        source={post.post.images[0]}
-                        style={{
-                            width: imageSize,
-                            height: imageSize,
-                            margin: SPACING / 2,
-                            borderRadius: 10,
-                        }}
-                    />
-                ))}
-            </View>
         </View>
     )
 }

@@ -1,22 +1,25 @@
-import Slider from "@react-native-community/slider";
-import { Image } from "expo-image";
-import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import Slider from '@react-native-community/slider'
+import { Image } from 'expo-image'
+import React, { useState } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
 
-import Collapsible from "react-native-collapsible";
-import RadioGroup from "react-native-radio-buttons-group";
-import { ArrowDown, ArrowRightToLeft } from "@/assets/images/Button";
-import _countries from "@/data/contries";
-import Rating from "./Rating";
+import Collapsible from 'react-native-collapsible'
+import RadioGroup from 'react-native-radio-buttons-group'
+import { ArrowDown, ArrowRightToLeft } from '@/assets/images/Button'
+import _countries from '@/data/contries'
+import Rating from './Rating'
+type AccordionItemProps = {
+    title: string
+    content: React.ReactNode
+    icon?: React.ReactNode
+    description?: string
+    border?: boolean
+}
 
-const AccordionItem = ({ title, content, icon, description, border }) => {
-    const [isCollapsed, setIsCollapsed] = useState(true);
+const AccordionItem = ({ title, content, icon, description, border }: AccordionItemProps) => {
+    const [isCollapsed, setIsCollapsed] = useState(true)
     return (
-        <View
-            className={`my-4 ${
-                border ? "rounded-[10px] border border-neutral-200 p-5" : ""
-            }`}
-        >
+        <View className={`my-4 ${border ? 'rounded-[10px] border border-neutral-200 p-5' : ''}`}>
             <TouchableOpacity
                 className="flex-row items-center justify-between"
                 onPress={() => setIsCollapsed(!isCollapsed)}
@@ -25,9 +28,7 @@ const AccordionItem = ({ title, content, icon, description, border }) => {
                     {icon && <View className="mr-3">{icon}</View>}
 
                     <View className="flex-col ">
-                        <Text className=" text-neutral-600 text-sm font-medium font-['Montserrat']">
-                            {title}
-                        </Text>
+                        <Text className=" text-neutral-600 text-sm font-medium font-['Montserrat']">{title}</Text>
                         {description && (
                             <Text className=" text-neutral-400 text-[10px] font-normal font-['Montserrat']">
                                 {description}
@@ -41,10 +42,10 @@ const AccordionItem = ({ title, content, icon, description, border }) => {
                 <View className="py-3">{content}</View>
             </Collapsible>
         </View>
-    );
-};
-const DistanceCollapsible = () => {
-    const [valueDistance, setValueDistance] = useState(1);
+    )
+}
+const DistanceCollapsible = ({ value }: { value: number }) => {
+    const [valueDistance, setValueDistance] = useState(1)
     return (
         <>
             <Text className="text-center text-neutral-700 text-sm font-medium font-['Montserrat']">
@@ -53,7 +54,7 @@ const DistanceCollapsible = () => {
             <Slider
                 value={valueDistance}
                 onValueChange={(e) => setValueDistance(Math.floor(e))}
-                style={{ width: "100%", height: 100 }}
+                style={{ width: '100%', height: 100 }}
                 minimumValue={0}
                 lowerLimit={1}
                 maximumValue={50}
@@ -61,11 +62,11 @@ const DistanceCollapsible = () => {
                 maximumTrackTintColor="#E2EFFC"
             />
         </>
-    );
-};
+    )
+}
 const CountryCollapsible = () => {
-    const [country, setCountry] = useState("1");
-    const [query, setQuery] = useState("");
+    const [country, setCountry] = useState('1')
+    const [query, setQuery] = useState('')
     return (
         <View className="ml-[30]">
             <Text className="text-neutral-600 text-[14px] font-normal font-['Montserrat'] mb-[15]">
@@ -74,10 +75,7 @@ const CountryCollapsible = () => {
             <View>
                 {_countries.map((country, index) => (
                     <View className="flex-row gap-x-2 items-center mb-[13]">
-                        <Image
-                            className="w-6 h-3.5 rounded-sm"
-                            source={country.image}
-                        />
+                        <Image className="w-6 h-3.5 rounded-sm" source={country.image} />
                         <Text className="text-neutral-600 text-xs font-normal font-['Montserrat'] ">
                             {country.lable}
                         </Text>
@@ -85,91 +83,76 @@ const CountryCollapsible = () => {
                 ))}
             </View>
         </View>
-    );
-};
-const PersionReview = () => {
+    )
+}
+const PersionReview = ({ selectedId, onSelect }: { selectedId?: string; onSelect: (id: string) => void }) => {
     const radioButtons = React.useMemo(
         () => [
             {
-                id: "1", // acts as primary key, should be unique and non-empty string
+                id: '1', // acts as primary key, should be unique and non-empty string
                 label: (
                     <View className="ml-5">
                         <Rating isDisabled={true} defaultRating={1} />
                     </View>
                 ),
-                value: "1",
+                value: '1',
                 borderSize: 1,
                 size: 16,
-                borderColor: "#A3A3A3",
+                borderColor: '#A3A3A3',
             },
             {
-                id: "2", // acts as primary key, should be unique and non-empty string
+                id: '2', // acts as primary key, should be unique and non-empty string
                 label: (
                     <View className="ml-5">
                         <Rating isDisabled={true} defaultRating={2} />
                     </View>
                 ),
-                value: "2",
+                value: '2',
                 borderSize: 1,
                 size: 16,
-                borderColor: "#A3A3A3",
+                borderColor: '#A3A3A3',
             },
             {
-                id: "3", // acts as primary key, should be unique and non-empty string
+                id: '3', // acts as primary key, should be unique and non-empty string
                 label: (
                     <View className="ml-5">
                         <Rating isDisabled={true} defaultRating={3} />
                     </View>
                 ),
-                value: "3",
+                value: '3',
                 borderSize: 1,
                 size: 16,
-                borderColor: "#A3A3A3",
+                borderColor: '#A3A3A3',
             },
             {
-                id: "4", // acts as primary key, should be unique and non-empty string
+                id: '4', // acts as primary key, should be unique and non-empty string
                 label: (
                     <View className="ml-5">
                         <Rating isDisabled={true} defaultRating={4} />
                     </View>
                 ),
-                value: "4",
+                value: '4',
                 borderSize: 1,
                 size: 16,
-                borderColor: "#A3A3A3",
+                borderColor: '#A3A3A3',
             },
             {
-                id: "5", // acts as primary key, should be unique and non-empty string
+                id: '5', // acts as primary key, should be unique and non-empty string
                 label: (
                     <View className="ml-5">
                         <Rating isDisabled={true} defaultRating={5} />
                     </View>
                 ),
-                value: "5",
+                value: '5',
                 borderSize: 1,
                 size: 16,
-                borderColor: "#A3A3A3",
+                borderColor: '#A3A3A3',
             },
         ],
-        []
-    );
+        [],
+    )
 
-    const [selectedId, setSelectedId] = useState();
+    return <RadioGroup radioButtons={radioButtons} onPress={onSelect} selectedId={selectedId} />
+}
 
-    return (
-        <View>
-            <RadioGroup
-                borderSize={1}
-                radioButtons={radioButtons}
-                onPress={setSelectedId}
-                selectedId={selectedId}
-            />
-        </View>
-    );
-};
-export {
-    AccordionItem,
-    CountryCollapsible,
-    DistanceCollapsible,
-    PersionReview,
-};
+export { AccordionItem, CountryCollapsible, DistanceCollapsible, PersionReview }
