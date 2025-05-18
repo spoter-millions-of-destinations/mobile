@@ -21,17 +21,41 @@ export interface MapLocation {
 }
 const mapService = {
     findLocationByName: async (name: string): Promise<MapLocation[]> => {
-        const data = await axios.get('https://api.mapbox.com/search/geocode/v6/forward', {
+        const response = await axios.get('https://nominatim.openstreetmap.org/search', {
             params: {
-                q: encodeURIComponent(name),
-                access_token:
-                    'pk.eyJ1IjoicGh1b2NuZ3V5ZW4xMiIsImEiOiJjbTZxbGZxcmQwZm52Mm5zYmJ4b2Z0YXk0In0.naqLpD_iEu4oAJVM_CWZFQ',
+                q: name,
+                format: 'json',
+                addressdetails: 1,
                 limit: 5,
+                countrycodes: 'vn', // Giới hạn kết quả ở Việt Nam
+            },
+            headers: {
+                'Accept-Language': 'vi', // Ưu tiên tiếng Việt
+                'User-Agent': 'your-app-name (your-email@example.com)', // Nominatim yêu cầu user agent hợp lệ
             },
         })
-        console.log(data.data.features)
+        console.log(response.data)
 
-        return data.data.features
+        // Chuyển đổi dữ liệu về MapLocation tương tự như từ Mapbox
+        return response.data.map((item) => ({
+            type: 'Feature',
+            id: item.place_id.toString(),
+            geometry: {
+                type: 'Point',
+                coordinates: [parseFloat(item.lon), parseFloat(item.lat)],
+            },
+            properties: {
+                name: item.name || item.display_name.split(',')[0], // fallback nếu không có name
+                name_preferred: item.name || item.display_name.split(',')[0],
+                full_address: item.display_name,
+                place_formatted: item.display_name,
+                mapbox_id: `${item.osm_type}_${item.osm_id}`,
+                feature_type: item.type || 'address',
+                match_code: [], // Nominatim không có match_code — bạn có thể để rỗng
+                coordinates: [], // Nếu cần thêm chi tiết có thể truyền bounding box hoặc điểm chính
+                context: Object.entries(item.address).map(([k, v]) => ({ [k]: v })),
+            },
+        }))
     },
     getLocationByAddress: async (
         address: string,

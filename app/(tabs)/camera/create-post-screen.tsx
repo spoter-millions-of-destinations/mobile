@@ -25,15 +25,18 @@ const CreatePostScreen = () => {
     useHideBottonTab()
     const handleCreatePost = async () => {
         try {
-            Toast.show({
-                type: 'info',
-                text1: 'Thông báo bài viết 🎉',
-                text2: 'Bài viết của bạn đang được đăng!',
-                position: 'top',
-                visibilityTime: 2000,
-                autoHide: true,
-            })
-            router.navigate('/(tabs)/feed')
+            router.dismiss()
+            router.replace('/(tabs)/feed')
+            setTimeout(() => {
+                Toast.show({
+                    type: 'info',
+                    text1: 'Thông báo bài viết 🎉',
+                    text2: 'Bài viết của bạn đang được đăng!',
+                    position: 'top',
+                    visibilityTime: 2000,
+                    autoHide: true,
+                })
+            }, 200) // hoặc 200ms nếu cần chắc chắn
             if (!postStore.image) {
                 return
             }
@@ -53,7 +56,7 @@ const CreatePostScreen = () => {
             }
 
             await postService.createPost(data)
-            
+
             Toast.show({
                 type: 'success',
                 text1: 'Đăng bài thành công 🎉',
