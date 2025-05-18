@@ -100,7 +100,7 @@ const PostCard = ({ post }: { post: Post }) => {
                             <UserInfo
                                 user={user}
                                 postTime={createdAt}
-                                isSponser={attraction?.advertisingPackage !== undefined}
+                                packageInfo={attraction?.advertisingPackage}
                             />
                             <Ionicons name="ellipsis-horizontal" size={24} color="white" />
                         </View>

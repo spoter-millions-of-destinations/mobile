@@ -1,4 +1,6 @@
+import { color } from '@/constants/Colors'
 import { calculateTime } from '@/helpers/time'
+import { AdvertisingPackage } from '@/services/post.service'
 import { User } from '@/services/user.service'
 import { router } from 'expo-router'
 import React from 'react'
@@ -9,10 +11,10 @@ type UserInfoProps = {
     textDark?: boolean
     disableAdd?: boolean
     style?: any
-    isSponser?: boolean
+    packageInfo?: AdvertisingPackage
 } & { user: Pick<User, 'id' | 'name' | 'avatar'> }
 
-const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style, isSponser }: UserInfoProps) => {
+const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style, packageInfo }: UserInfoProps) => {
     const styles = StyleSheet.create({
         userImage: {
             width: 40,
@@ -61,8 +63,13 @@ const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style,
                     </Text>
 
                     {postTime &&
-                        (isSponser ? (
-                            <Text className="text-[11px] font-['Montserrat'] text-yellow-400 font-semibold bg-white/10 px-2 py-0.5 rounded w-fit">
+                        (packageInfo ? (
+                            <Text
+                                className="text-[11px] font-['Montserrat'] font-semibold bg-white/10 px-2 py-0.5 rounded w-fit"
+                                style={{
+                                    color: color[packageInfo.name],
+                                }}
+                            >
                                 Sponsered
                             </Text>
                         ) : (

@@ -1,40 +1,36 @@
 // authService.js
 
 import axiosClient from './axiosClient'
-import { Post } from './post.service'
+import { AdvertisingPackage, Post } from './post.service'
+
 export type Attraction = {
-    name: string
     id: number
-    description: string
-    images: string[]
+    name: string
+    description: null
+    rate: null
+    placeName: string
+    address: string
+    ward: string
+    district: string
+    city: string
+    country: string
     longitude: string
     latitude: string
-    isFavorite: boolean
-    rate: number
     createdAt: string
     updatedAt: string
-    user: {
-        id: string
-        name: string
-        avatar: string
-    }
-    attraction: {
-        id: number
-        name: string
-        description: string
-        rate: string
-        placeName: string
-        address: string
-        ward: string
-        district: string
-        city: string
-        country: string
-        longitude: string
-        latitude: string
-        createdAt: string
-        updatedAt: string
-    }
+    advertisingPackage?: AdvertisingPackage 
 }
+
+export interface AttractionInfo {
+    description: string
+    address: string
+    advertisingPackageId: number
+    images: string[]
+    rate: number
+    longitude: number
+    latitude: number
+}
+
 const attractionService = {
     getAllAttractions: async (offset: number, limit: number): Promise<Attraction[]> =>
         axiosClient.get('/attractions', {
@@ -47,15 +43,7 @@ const attractionService = {
         })
     },
 
-    addAttraction: async (data: {
-        description: string
-        images: string[]
-        longitude: number
-        latitude: number
-        rate: number
-        advertisingPackageId?: number
-        address: number
-    }) => {
+    addAttraction: async (data: AttractionInfo) => {
         return axiosClient.post('/posts', data)
     },
 }

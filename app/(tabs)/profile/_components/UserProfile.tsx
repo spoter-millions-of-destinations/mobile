@@ -29,8 +29,8 @@ const UserProfile = React.memo(({ userId }: Props) => {
             {/* Ads */}
             <View className="relative">
                 <TouchableOpacity
-                    // onPress={() => router.push('create-ads')}
-                    className="absolute z-20 right-[24] top-[20]"
+                    onPress={() => router.push('/(share)/create_ads')}
+                    className="absolute z-20 right-[30] top-[50]"
                 >
                     <Ads />
                 </TouchableOpacity>

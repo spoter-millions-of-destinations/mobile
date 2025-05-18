@@ -33,9 +33,11 @@ export type Post = {
         advertisingPackage?: AdvertisingPackage
     } | null
 }
+
+type NameAdvertisingPackage = 'Ruby package' | 'Diamond package' | 'Gold package'
 export type AdvertisingPackage = {
     id: number
-    name: string
+    name: NameAdvertisingPackage
     description: string
     image: string
     price: number
@@ -68,7 +70,7 @@ const postService = {
 
     getAllFeedByQuery: (query: PostsQuery): Promise<Post[]> => axiosClient.get(`/posts`, { params: query }),
 
-    getPostsOfAttraction: async (offset: string, limit: string, attractionId: string): Promise<Post[]> => {
+    getPostsOfAttraction: async (offset: number, limit: number, attractionId: number): Promise<Post[]> => {
         return axiosClient.get('/posts', {
             params: { offset, limit, attractionId },
         })

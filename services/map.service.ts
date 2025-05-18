@@ -33,6 +33,23 @@ const mapService = {
 
         return data.data.features
     },
+    getLocationByAddress: async (
+        address: string,
+    ): Promise<{
+        lat: number
+        lng: number
+    }> => {
+        const response = await axios.get(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`,
+        )
+        if (response.data.length > 0) {
+            return {
+                lat: parseFloat(response.data[0].lat),
+                lng: parseFloat(response.data[0].lon),
+            }
+        }
+        throw new Error('No results found')
+    },
 }
 
 export default mapService
