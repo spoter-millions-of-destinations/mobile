@@ -1,21 +1,11 @@
 import React from 'react'
-import {
-    SafeAreaView,
-    TextInput,
-    TouchableOpacity,
-    View
-} from 'react-native'
+import { SafeAreaView, TextInput, TouchableOpacity, View } from 'react-native'
 
 import MasonryList from '@react-native-seoul/masonry-list'
 
 import ContainerComponent from '@/components/ContainerComponent'
 
-
-import {
-    Collection,
-    Filter,
-    KinhLup
-} from '@/assets/images/Button'
+import { Collection, Filter, KinhLup } from '@/assets/images/Button'
 
 import Loading from '@/components/Loading'
 import { useToggle } from '@/hooks'
@@ -42,15 +32,32 @@ const Suggest = () => {
     const [searchQuery, setSearchQuery] = React.useState('')
     const [debouncedSearch] = useDebounce(searchQuery, 500)
 
-    const { data: posts = [], isLoading } = useQuery({
+    const {
+        data: posts = [],
+        isLoading,
+        refetch,
+    } = useQuery({
         queryKey: ['posts', filters, debouncedSearch],
-        queryFn: () =>
-            postService.getAllFeedByQuery({
+        queryFn: () => {
+            const filter = {
+                latitude: undefined,
+                longitude: undefined,
+                radius: filters.radius && filters.radius * 1000,
+                rate: filters.rate,
+            }
+            console.log('filters', {
                 limit: 100,
                 offset: 0,
                 search: debouncedSearch || undefined,
-                ...(filters.radius || filters.rate ? filters : {}),
-            }),
+                ...filter,
+            })
+            return postService.getAllFeedByQuery({
+                limit: 100,
+                offset: 0,
+                search: debouncedSearch || undefined,
+                ...filter,
+            })
+        },
     })
 
     return (
@@ -96,6 +103,11 @@ const Suggest = () => {
                         <Loading />
                     ) : (
                         <MasonryList
+                            refreshing={isLoading}
+                            onRefresh={() => {
+                                refetch()
+                            }}
+                            keyExtractor={(item) => item.id}
                             data={posts}
                             numColumns={2}
                             showsVerticalScrollIndicator={false}
