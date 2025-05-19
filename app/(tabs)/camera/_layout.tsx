@@ -8,7 +8,12 @@ export default function CameraLayout() {
                 headerShown: false,
             }}
         >
-            <Stack.Screen name="index" options={{}} />
+            <Stack.Screen
+                name="index"
+                options={{
+                    presentation: 'modal',
+                }}
+            />
             <Stack.Screen
                 name="create-post-screen"
                 options={{

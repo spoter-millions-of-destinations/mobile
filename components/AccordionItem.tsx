@@ -44,20 +44,23 @@ const AccordionItem = ({ title, content, icon, description, border }: AccordionI
         </View>
     )
 }
-const DistanceCollapsible = ({ value }: { value: number }) => {
-    const [valueDistance, setValueDistance] = useState(1)
+const DistanceCollapsible = ({
+    value,
+    onSelect,
+}: {
+    value: number
+    onSelect: (value: number | (() => void)) => void
+}) => {
     return (
         <>
-            <Text className="text-center text-neutral-700 text-sm font-medium font-['Montserrat']">
-                {valueDistance} km
-            </Text>
+            <Text className="text-center text-neutral-700 text-sm font-medium font-['Montserrat']">{value} km</Text>
             <Slider
-                value={valueDistance}
-                onValueChange={(e) => setValueDistance(Math.floor(e))}
+                value={value}
+                onValueChange={(e) => onSelect(() => Math.floor(e))}
                 style={{ width: '100%', height: 100 }}
                 minimumValue={0}
                 lowerLimit={1}
-                maximumValue={50}
+                maximumValue={100}
                 minimumTrackTintColor="#4371E8"
                 maximumTrackTintColor="#E2EFFC"
             />

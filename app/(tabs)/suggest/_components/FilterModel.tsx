@@ -32,7 +32,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ visible, onClose, onApply }) 
                         <AccordionItem
                             icon={<Distance />}
                             title={'Distance/Radius'}
-                            content={<DistanceCollapsible value={valueDistance} />}
+                            content={<DistanceCollapsible value={valueDistance} onSelect={setValueDistance} />}
                         />
 
                         <AccordionItem

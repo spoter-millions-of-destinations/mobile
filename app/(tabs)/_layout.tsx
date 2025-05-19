@@ -8,12 +8,13 @@ export const tabBarStyle: ViewStyle = {
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: 70,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.5,
     elevation: 5,
+    height: 78, // Giảm chiều cao tổng thể (mặc định ~83)
+    paddingBottom: 40,
 }
 export default function TabsLayout() {
     return (

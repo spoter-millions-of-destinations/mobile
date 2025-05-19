@@ -1,4 +1,6 @@
+import { color } from '@/constants/Colors'
 import { calculateTime } from '@/helpers/time'
+import { AdvertisingPackage } from '@/services/post.service'
 import { User } from '@/services/user.service'
 import { router } from 'expo-router'
 import React from 'react'
@@ -9,9 +11,10 @@ type UserInfoProps = {
     textDark?: boolean
     disableAdd?: boolean
     style?: any
-    isSponser?: boolean
+    packageInfo?: AdvertisingPackage
 } & { user: Pick<User, 'id' | 'name' | 'avatar'> }
-const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style, isSponser }: UserInfoProps) => {
+
+const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style, packageInfo }: UserInfoProps) => {
     const styles = StyleSheet.create({
         userImage: {
             width: 40,
@@ -19,7 +22,6 @@ const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style,
             borderRadius: 40,
             marginRight: 10,
         },
-
         userName: {
             color: textDark ? 'black' : 'white',
             textShadowColor: !textDark ? 'rgba(0, 0, 0, 0.60)' : undefined,
@@ -39,15 +41,18 @@ const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style,
             left: 28,
         },
     })
+
     return (
-        <TouchableOpacity onPress={() => router.push(`/profile/${user.id}`)}>
+        <TouchableOpacity
+            onPress={() =>
+                router.push({
+                    pathname: '/(share)/profile/[id]',
+                    params: { id: user.id },
+                })
+            }
+        >
             <View className="relative flex-row items-center" style={style}>
-                <Image
-                    source={{
-                        uri: user.avatar,
-                    }}
-                    style={styles.userImage}
-                />
+                <Image source={{ uri: user.avatar }} style={styles.userImage} />
                 {!disableAdd && <Image source={require('@/assets/images/follow-icon.png')} style={styles.follow} />}
                 <View>
                     <Text
@@ -56,11 +61,22 @@ const UserInfo = ({ user, postTime, textDark = false, disableAdd = false, style,
                     >
                         {user.name}
                     </Text>
-                    {postTime && (
-                        <Text style={styles.postTime} className="text-[11px] font-['Montserrat']">
-                            {isSponser ? 'Sponsered' : calculateTime(postTime)}
-                        </Text>
-                    )}
+
+                    {postTime &&
+                        (packageInfo ? (
+                            <Text
+                                className="text-[11px] font-['Montserrat'] font-semibold bg-white/10 px-2 py-0.5 rounded w-fit"
+                                style={{
+                                    color: color[packageInfo.name],
+                                }}
+                            >
+                                Sponsered
+                            </Text>
+                        ) : (
+                            <Text style={styles.postTime} className="text-[11px] font-['Montserrat']">
+                                {calculateTime(postTime)}
+                            </Text>
+                        ))}
                 </View>
             </View>
         </TouchableOpacity>

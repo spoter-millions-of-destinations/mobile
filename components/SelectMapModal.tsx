@@ -1,31 +1,35 @@
-import React, { useState } from "react";
-import {
-    FlatList,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
-import { Delete, Filter } from "@/assets/images/Button";
-import FloatingButtonComponent from "./FloatingButtonComponent";
+import React, { useState } from 'react'
+import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Delete, Filter } from '@/assets/images/Button'
+import FloatingButtonComponent from './FloatingButtonComponent'
 
-import { Image } from "expo-image";
-import _maps from "@/data/map";
+import { Image } from 'expo-image'
+import _maps from '@/data/map'
 
 const SelectMapModal = ({ urlMap, setUrlMap }) => {
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false)
 
     const ImageMap = ({ source, title, mapUrl }) => {
         return (
             <TouchableOpacity onPress={() => setUrlMap(mapUrl)} className={``}>
                 <View
                     className={` rounded-xl shadow-inner p-1 mb-[6] ${
-                        urlMap === mapUrl ? "border-2 border-blue-500" : ""
+                        urlMap === mapUrl ? 'border-2 border-blue-500' : ''
                     }`}
                 >
                     <Image
                         source={source}
+                        style={{
+                            width: 80,
+                            height: 80,
+                            borderRadius: 10,
+                            borderWidth: 1,
+                            borderColor: 'white',
+                            backgroundColor: 'white',
+                            overflow: 'hidden',
+
+                            shadowColor: urlMap === mapUrl ? 'blue' : 'white',
+                        }}
                         className={` w-20 h-20 rounded-lg shadow-inner `}
                     />
                 </View>
@@ -33,28 +37,23 @@ const SelectMapModal = ({ urlMap, setUrlMap }) => {
                 <Text
                     className={`text-center 
                     ${
-                        urlMap === mapUrl
-                            ? "text-blue-500 font-bold "
-                            : "text-neutral-400 font-normal"
+                        urlMap === mapUrl ? 'text-blue-500 font-bold ' : 'text-neutral-400 font-normal'
                     } text-[10px] font-['Open Sans']`}
                 >
                     {title}
                 </Text>
             </TouchableOpacity>
-        );
-    };
+        )
+    }
     return (
         <View>
-            <FloatingButtonComponent
-                icon={<Filter />}
-                onPress={() => setModalVisible(true)}
-            />
+            <FloatingButtonComponent icon={<Filter />} onPress={() => setModalVisible(true)} />
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    setModalVisible(!modalVisible);
+                    setModalVisible(!modalVisible)
                 }}
             >
                 <View className="relative justify-end flex-1 pb-6 bg-transparent">
@@ -67,11 +66,7 @@ const SelectMapModal = ({ urlMap, setUrlMap }) => {
                                     </Text>
                                 </View>
                                 <View>
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            setModalVisible(!modalVisible)
-                                        }
-                                    >
+                                    <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
                                         <Delete />
                                     </TouchableOpacity>
                                 </View>
@@ -84,11 +79,7 @@ const SelectMapModal = ({ urlMap, setUrlMap }) => {
                                     gap: 15,
                                 }}
                                 renderItem={({ item }) => (
-                                    <ImageMap
-                                        source={item.image}
-                                        title={item.title}
-                                        mapUrl={item.mapUrl}
-                                    />
+                                    <ImageMap source={item.image} title={item.title} mapUrl={item.mapUrl} />
                                 )}
                             />
                         </View>
@@ -96,16 +87,16 @@ const SelectMapModal = ({ urlMap, setUrlMap }) => {
                 </View>
             </Modal>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     modalView: {
-        backgroundColor: "white",
+        backgroundColor: 'white',
         borderRadius: 20,
         padding: 15,
-        alignItems: "center",
-        shadowColor: "#000",
+        alignItems: 'center',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -114,6 +105,6 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
-});
+})
 
-export default SelectMapModal;
+export default SelectMapModal

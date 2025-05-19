@@ -30,7 +30,7 @@ const DetailPostScreen = () => {
     const { goToCollection, goToMap } = useNavigatHelper()
     const post: Post = JSON.parse(data as string)
 
-    const { id, user, createdAt, images, description } = post
+    const { id, user, createdAt, images, description, attraction } = post
 
     const [commentText, setCommentText] = useState('')
     const [liked, setLiked] = useState(() => post.isFavorite)
@@ -71,7 +71,13 @@ const DetailPostScreen = () => {
                             <Back />
                         </TouchableOpacity>
 
-                        <UserInfo style={{ marginLeft: 16 }} textDark={true} user={user} postTime={createdAt} />
+                        <UserInfo
+                            style={{ marginLeft: 16 }}
+                            textDark={true}
+                            user={user}
+                            postTime={createdAt}
+                            packageInfo={attraction?.advertisingPackage}
+                        />
                     </View>
                     <View>
                         <Ionicons name="ellipsis-horizontal" size={24} color="black" />
