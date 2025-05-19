@@ -1,9 +1,20 @@
+import { Mission } from '@/data/missions'
 import { Attraction } from '@/services/attraction.service'
+import { Collection } from '@/services/collection.service'
 import { Post } from '@/services/post.service'
 import { useRouter } from 'expo-router'
 
 export const useNavigatHelper = () => {
     const router = useRouter()
+
+    const goToDetailCollection = (item: Collection) =>
+        router.push({
+            pathname: '/(share)/collection/[id]',
+            params: {
+                id: JSON.stringify(item.id),
+                data: JSON.stringify(item),
+            },
+        })
 
     const goToPostDetail = (post: Post) =>
         router.push({
@@ -49,7 +60,17 @@ export const useNavigatHelper = () => {
         })
 
     const goToSearchDestination = () => router.push('/(share)/map/search_map')
+
+    const goToDetailMission = (mission: Mission) =>
+        router.push({
+            pathname: '/(tabs)/challenge/[id]',
+            params: {
+                id: mission.id,
+                data: JSON.stringify(mission),
+            },
+        })
     return {
+        goToDetailMission,
         showPostPin,
         showAttractionPin,
         goToCollection,
@@ -57,5 +78,6 @@ export const useNavigatHelper = () => {
         goToMap,
         goToCreateCollection,
         goToSearchDestination,
+        goToDetailCollection,
     }
 }

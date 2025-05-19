@@ -33,7 +33,7 @@ const collectionService = {
     getCollectionItems: (id: number): Promise<Collection> => {
         return axiosClient.get(`/collections/${id}`)
     },
-    getPublicCollections: (offset: string = '0', limit: string = '10'): Promise<Collection[]> => {
+    getPublicCollections: (offset: number = 0, limit: number = 10): Promise<Collection[]> => {
         return axiosClient.get(`/collections/public`, {
             params: { offset, limit },
         })

@@ -9,7 +9,7 @@ import { View } from 'react-native'
 // Define the UserContext type
 type UserContextType = {
     user: User | null
-    updateUser: (newUserInfo: User) => void
+    updateUser: (newUserInfo: User | null) => void
     loading: boolean
 }
 
@@ -35,7 +35,7 @@ export const UserProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
         },
     })
 
-    const updateUser = (newUserInfo: User) => {
+    const updateUser = (newUserInfo: User | null) => {
         setUser(newUserInfo)
     }
 

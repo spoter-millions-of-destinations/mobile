@@ -236,7 +236,7 @@ PODS:
     - ExpoModulesCore
   - ExpoHaptics (14.0.0):
     - ExpoModulesCore
-  - ExpoHead (4.0.15):
+  - ExpoHead (4.0.20):
     - ExpoModulesCore
   - ExpoImage (2.0.7):
     - ExpoModulesCore
@@ -294,8 +294,6 @@ PODS:
   - hermes-engine (0.76.9):
     - hermes-engine/Pre-built (= 0.76.9)
   - hermes-engine/Pre-built (0.76.9)
-  - ImageColors (2.4.0):
-    - ExpoModulesCore
   - libavif/core (0.11.1)
   - libavif/libdav1d (0.11.1):
     - libavif/core
@@ -2097,6 +2095,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNImageColors (1.3.1):
+    - React-Core
   - rnmapbox-maps (10.1.38):
     - MapboxMaps (~> 10.19.0)
     - React
@@ -2373,7 +2373,6 @@ DEPENDENCIES:
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
-  - ImageColors (from `../node_modules/react-native-image-colors/ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
@@ -2440,6 +2439,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageColors (from `../node_modules/react-native-image-colors`)
   - "rnmapbox-maps (from `../node_modules/@rnmapbox/maps`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -2539,8 +2539,6 @@ EXTERNAL SOURCES:
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2024-11-12-RNv0.76.2-5b4aa20c719830dcf5684832b89a6edb95ac3d64
-  ImageColors:
-    :path: "../node_modules/react-native-image-colors/ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
   RCT-Folly:
@@ -2669,6 +2667,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@shopify/flash-list"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageColors:
+    :path: "../node_modules/react-native-image-colors"
   rnmapbox-maps:
     :path: "../node_modules/@rnmapbox/maps"
   RNReanimated:
@@ -2702,7 +2702,7 @@ SPEC CHECKSUMS:
   ExpoFileSystem: a38e1bb58d77f41717293a7b73ebd4014d8cb8dd
   ExpoFont: b089994dac1fe603deda1cec151e32c81f46c2f1
   ExpoHaptics: f8eacde90398b8be3648ed823b6e9e6bf87ece3f
-  ExpoHead: 09fa14b978c938d40bf6b516460da411ae54a7c2
+  ExpoHead: cee2d16ef197aaadb0ac481cf221a663636eb074
   ExpoImage: d840b256050f4428d2942bc2b6e9251f9e0d7021
   ExpoImagePicker: 24e5ba8da111f74519b1e6dc556e0b438b2b8464
   ExpoKeepAwake: 22173f45d767c7d37403fdf48292726901d69ce7
@@ -2720,7 +2720,6 @@ SPEC CHECKSUMS:
   fmt: 01b82d4ca6470831d1cc0852a1af644be019e8f6
   glog: 08b301085f15bcbb6ff8632a8ebaf239aae04e6a
   hermes-engine: 9e868dc7be781364296d6ee2f56d0c1a9ef0bb11
-  ImageColors: 869f48b27ca2afb347fd0bada3257a5f698ee55e
   libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   lottie-ios: a881093fab623c467d3bce374367755c272bdd59
@@ -2792,6 +2791,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: ab0ad9a78ead8b9f143f0238a5aa535777b12e65
   RNFlashList: 0dbea8359f8d0fb99c416ca09b91203ff65e26cc
   RNGestureHandler: fffddeb8af59709c6d8de11b6461a6af63cad532
+  RNImageColors: 161f6730faddedcb1c8693ec53ebb10992176c37
   rnmapbox-maps: dc814adf1a4675b35e168a5ea327234b265b2d5d
   RNReanimated: cfcf747a2b6d03e334d7a253da37722f55831b8b
   RNScreens: 362f4c861dd155f898908d5035d97b07a3f1a9d1

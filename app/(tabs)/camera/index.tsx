@@ -64,10 +64,10 @@ const CameraScreen = () => {
                         <CloseSquare color="white" />
                     </TouchableOpacity>
                     <CameraView
+                        flash="off"
                         ratio="1:1"
                         enableTorch
                         autofocus="on"
-                        flash={flash}
                         style={styles.camera}
                         facing={facing}
                         className="justify-between flex-column"

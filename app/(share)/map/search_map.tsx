@@ -43,8 +43,6 @@ const SearchDestinationScreen = () => {
         setDataStorage<MapLocation[]>('search_history', newHistory)
     }
 
-    console.log('searchHistory', searchHistory)
-
     const {
         data: searchResults = [],
         isLoading,

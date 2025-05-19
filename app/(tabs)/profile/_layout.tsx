@@ -10,11 +10,24 @@ import UserCollections from './(tabs)/collections'
 import { ContainerComponent } from '@/components'
 import { UserContext } from '@/context/AuthContext'
 import ProfileScreen from '.'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, usePathname } from 'expo-router'
 
 export default function MyProfileScreen() {
     const { user } = useContext(UserContext)
-    const { userId = user!.id } = useLocalSearchParams()
+    const params = useLocalSearchParams()
 
-    return <ProfileScreen userId={userId as number} />
+    const pathname = usePathname()
+    console.log('pathname', pathname)
+
+    const isOwnProfile = pathname === '/profile'
+
+    // Nếu là trang profile chính (từ tab), dùng id của người dùng hiện tại
+    const profileId = isOwnProfile ? user?.id : Number(params.userId)
+
+    // Đảm bảo có giá trị hợp lệ trước khi render
+    if (!profileId) {
+        return null // hoặc một loading screen
+    }
+
+    return <ProfileScreen userId={profileId} />
 }

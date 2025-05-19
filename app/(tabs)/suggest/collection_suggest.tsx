@@ -6,70 +6,78 @@ import Loading from '../../../components/Loading'
 import { useNavigation } from '@react-navigation/native'
 import { Collection as CollectionIcon, Filter, KinhLup } from '@/assets/images/Button'
 import { Icon } from 'iconsax-react-native'
-
-
+import { router } from 'expo-router'
+import { Collection } from '../profile/_components/Collection'
+import { useNavigatHelper } from '@/hooks/useNavigateHelper'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { Container } from 'lucide-react-native'
+import { ContainerComponent } from '@/components'
+const LIMIT = 10
 const CollectionSuggestion = () => {
-    const [collections, setCollections] = React.useState([])
-    const [isLoading, setIsLoading] = React.useState(true)
-    const navigation = useNavigation()
-    React.useEffect(() => {
-        ;(async () => {
-            try {
-                setIsLoading(true)
-                const data = await collectionService.getPublicCollections(0, 100)
+    const { goToDetailCollection } = useNavigatHelper()
 
-                setCollections(data.data)
-            } catch (error) {
-                console.log(error)
-            } finally {
-                setIsLoading(false)
+    const { data, refetch, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery({
+        queryKey: ['public_collections'],
+        initialPageParam: 0,
+        queryFn: async ({ pageParam = 0 }) => {
+            const result = await collectionService.getPublicCollections(pageParam, LIMIT)
+            return { data: result, nextOffset: pageParam + LIMIT, hasMore: result.length === LIMIT }
+        },
+        getNextPageParam: (lastPage) => {
+            if (lastPage.hasMore) {
+                return lastPage.nextOffset
+            } else {
+                return undefined
             }
-        })()
-    }, [])
-    console.log(collections)
+        },
+    })
+
+    const handleRefresh = async () => {
+        await refetch()
+    }
+    const handleEndReached = () => {
+        if (!isFetchingNextPage && hasNextPage) {
+            fetchNextPage()
+        }
+    }
+    const collections = data?.pages.flatMap((page) => page.data) || []
+
     return (
-        <SafeAreaView className="flex-1">
-            <View className="px-6">
+        <SafeAreaView className="flex-1 bg-white">
+            <ContainerComponent>
                 <View className="flex-row items-center justify-between mb-5 gap-x-3 ">
                     <View className="px-5 py-2 bg-neutral-50 rounded-[35px] border border-neutral-300 flex-row justify-between items-center relative flex-1">
                         <View>
-                            <KinhLup class="w-1 h-1" />
+                            <KinhLup />
                         </View>
-
                         <TextInput className="flex-1 ml-5" placeholder="Seach here" />
-                        <TouchableOpacity onPress={() => setModalVisible(true)}>
-                            <Filter />
-                        </TouchableOpacity>
                     </View>
                     <View>
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('suggests')}
+                            onPress={() => router.push('/(tabs)/suggest')}
                             className="w-[50px] h-[50px]  rounded-[25px] border border-neutral-300 flex-col justify-center items-center "
                         >
                             <CollectionIcon />
                         </TouchableOpacity>
                     </View>
                 </View>
-                {isLoading && collections.length == 0 ? (
+
+                {isLoading ? (
                     <Loading />
                 ) : (
                     <FlatList
+                        onRefresh={handleRefresh}
                         data={collections}
-                        renderItem={({ item }) => (
-                            <Collection
-                                data={item}
-                                onPress={() =>
-                                    navigation.navigate('detail-suggest-public-collection', {
-                                        collectionId: item.id,
-                                        collectionName: item.name,
-                                        collectionDescription: item.description,
-                                    })
-                                }
-                            />
-                        )}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => <Collection data={item} onPress={() => goToDetailCollection(item)} />}
+                        showsVerticalScrollIndicator={false}
+                        onEndReached={handleEndReached}
+                        onEndReachedThreshold={0.5}
+                        ListFooterComponent={isFetchingNextPage ? <Loading /> : null}
+                        refreshing={isLoading}
                     />
                 )}
-            </View>
+            </ContainerComponent>
         </SafeAreaView>
     )
 }

@@ -1,9 +1,9 @@
-import { Ionicons } from '@expo/vector-icons'; // Thư viện icons
+import { Ionicons } from '@expo/vector-icons' // Thư viện icons
 import { ImageBackground, Text, View } from 'react-native'
 
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { getColors } from 'react-native-image-colors'
+import getColors from 'react-native-image-colors'
 
 import { BlurView } from 'expo-blur'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -25,48 +25,57 @@ const PostCard = ({ post }: { post: Post }) => {
         likes = Math.floor(Math.random() * 10000),
         comments = Math.floor(Math.random() * 10000),
         description,
-        attraction = {},
+        attraction,
     } = post
 
     const [liked, toggleLike] = useToggle(post.isFavorite, !post.isFavorite)
     const [likeNumber, setLikeNumber] = useState(likes)
+
     const [colors, setColors] = useState({
         primary: '#ffffff',
         detail: '#ffffff',
     })
 
     useEffect(() => {
+        let mounted = true
+
         ;(async () => {
             try {
-                const result = await getColors(images[0], {
-                    fallback: '#fff',
-                    cache: true,
-                    key: images[0],
-                    quality: 'highest',
-                })
+                const result = (await getColors.getColors(images[0])) as {
+                    platform: 'android' | 'ios' | 'web'
+                    primary?: string
+                    detail?: string
+                    dominant?: string
+                    average?: string
+                    darkVibrant?: string
+                }
+                if (!mounted) return
 
-                if (result.platform === 'ios') {
-                    setColors({
-                        primary: result.primary,
-                        detail: result.detail,
-                    })
-                } else if (result.platform === 'android') {
-                    setColors({
-                        primary: result.dominant || '#ffffff',
-                        detail: result.average || '#ffffff',
-                    })
-                } else {
-                    // web fallback
-                    setColors({
-                        primary: result.dominant || '#ffffff',
-                        detail: result.darkVibrant || '#ffffff',
-                    })
+                const newColors =
+                    result.platform === 'ios'
+                        ? { primary: result.primary || '#ffffff', detail: result.detail || '#ffffff' }
+                        : result.platform === 'android'
+                        ? {
+                              primary: result.dominant || '#ffffff',
+                              detail: result.average || '#ffffff',
+                          }
+                        : {
+                              primary: result.dominant || '#ffffff',
+                              detail: result.darkVibrant || '#ffffff',
+                          }
+
+                if (newColors.primary !== colors.primary || newColors.detail !== colors.detail) {
+                    setColors(newColors)
                 }
             } catch (error) {
-                console.error('Lỗi khi lấy màu sắc:', error)
+                console.warn('getColors error:', error)
             }
         })()
-    }, [images])
+
+        return () => {
+            mounted = false
+        }
+    }, [colors, images[0]])
 
     const handleToggleLink = () => {
         setLikeNumber((cur) => (liked ? cur - 1 : cur + 1))
@@ -74,73 +83,75 @@ const PostCard = ({ post }: { post: Post }) => {
     }
 
     return (
-        <View className={` mb-5 rounded-3xl overflow-hidden`}>
-            <LinearGradient
-                dither={true}
-                start={{ x: 0, y: 1 }}
-                colors={[hexToRgba(colors.primary, 0.25), hexToRgba(colors.detail, 0.25)]}
-            >
-                <ImageBackground
-                    source={{ uri: images[0] }}
-                    className="h-[375] p-[14] flex-col justify-between shadow"
-                    imageStyle={{ borderRadius: 24 }}
+        <View className={` mb-5 rounded-[30px] overflow-hidden`}>
+            <View>
+                <LinearGradient
+                    dither={true}
+                    start={{ x: 0, y: 1 }}
+                    colors={[hexToRgba(colors.primary, 0.25), hexToRgba(colors.detail, 0.25)]}
                 >
-                    <View className="flex-row justify-between">
-                        <UserInfo user={user} postTime={createdAt} />
-
-                        <Ionicons name="ellipsis-horizontal" size={24} color="white" />
-                    </View>
-                    <View className="flex-row justify-between">
-                        <View className="flex-row" style={{ gap: 9 }}>
-                            <Button
-                                text={likeNumber}
-                                onPress={handleToggleLink}
-                                icon={
-                                    <Ionicons
-                                        name={liked ? 'heart' : 'heart-outline'}
-                                        size={20}
-                                        color={liked ? 'red' : 'white'}
-                                    />
-                                }
-                            />
-                            <Button
-                                text={comments}
-                                onPress={() => goToPostDetail(post)}
-                                icon={<Ionicons name="chatbubble-outline" size={20} color="white" />}
-                            />
+                    <ImageBackground
+                        key={images[0]}
+                        source={{ uri: images[0] }}
+                        className="h-[375] p-[14] flex-col justify-between shadow"
+                        imageStyle={{ borderRadius: 24 }}
+                    >
+                        <View className="flex-row justify-between">
+                            <UserInfo user={user} postTime={createdAt} packageInfo={attraction?.advertisingPackage} />
+                            <Ionicons name="ellipsis-horizontal" size={24} color="white" />
                         </View>
-                        <View className="flex-row" style={{ gap: 9 }}>
-                            <Button
-                                onPress={() => goToMap([+post.longitude, +post.latitude], 'detail_post')}
-                                icon={<Ionicons name="paper-plane-outline" size={20} color="white" />}
-                            />
-
-                            <Button
-                                onPress={() => goToCollection(post)}
-                                icon={<Ionicons name="bookmark-outline" size={20} color="white" />}
-                            />
-                        </View>
-                    </View>
-                </ImageBackground>
-                <View className="px-5 py-4">
-                    <TouchableOpacity onPress={() => goToPostDetail(post)}>
-                        <Text className="text-black text-[14px] font-normal font-['Montserrat'] mb-2">
-                            {description}
-                        </Text>
-                        <View className="flex-row justify-end mt-1">
-                            <View className="flex-row items-center justify-end gap-1">
-                                <Pin className="mr-[5]" />
-                                <Text className=" text-neutral-600 text-[10px] font-normal font-['Montserrat']">
-                                    {`${post.attraction?.placeName}, ${post.attraction?.city}, ${post.attraction?.country}`}
-                                </Text>
+                        <View className="flex-row justify-between">
+                            <View className="flex-row" style={{ gap: 9 }}>
+                                <Button
+                                    text={likeNumber}
+                                    onPress={handleToggleLink}
+                                    icon={
+                                        <Ionicons
+                                            name={liked ? 'heart' : 'heart-outline'}
+                                            size={20}
+                                            color={liked ? 'red' : 'white'}
+                                        />
+                                    }
+                                />
+                                <Button
+                                    text={comments}
+                                    onPress={() => goToPostDetail(post)}
+                                    icon={<Ionicons name="chatbubble-outline" size={20} color="white" />}
+                                />
+                            </View>
+                            <View className="flex-row" style={{ gap: 9 }}>
+                                <Button
+                                    onPress={() => goToMap([+post.longitude, +post.latitude], 'detail_post')}
+                                    icon={<Ionicons name="paper-plane-outline" size={20} color="white" />}
+                                />
+                                <Button
+                                    onPress={() => goToCollection(post)}
+                                    icon={<Ionicons name="bookmark-outline" size={20} color="white" />}
+                                />
                             </View>
                         </View>
-                    </TouchableOpacity>
-                </View>
-            </LinearGradient>
+                    </ImageBackground>
+                    <View className="px-5 py-4">
+                        <TouchableOpacity onPress={() => goToPostDetail(post)}>
+                            <Text className="text-black text-[14px] font-normal font-['Montserrat'] mb-2">
+                                {description}
+                            </Text>
+                            <View className="flex-row justify-end mt-1">
+                                <View className="flex-row items-center justify-end gap-1">
+                                    <Pin className="mr-[5]" />
+                                    <Text className=" text-neutral-600 text-[10px] font-normal font-['Montserrat']">
+                                        {`${post.attraction?.placeName}, ${post.attraction?.city}, ${post.attraction?.country}`}
+                                    </Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </LinearGradient>
+            </View>
         </View>
     )
 }
+
 const Button = ({ text, icon, onPress }: { text?: string | number; icon: React.ReactNode; onPress: () => void }) => {
     return (
         <TouchableOpacity onPress={onPress} className="rounded-[14px] overflow-hidden">

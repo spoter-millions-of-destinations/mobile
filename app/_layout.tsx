@@ -13,22 +13,15 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { fonts } from '@/assets/fonts/fonts'
 import { Loading } from '@/components'
 import { QueryClient } from '@tanstack/react-query'
-import * as Notifications from 'expo-notifications'
+
 import { router, Stack, usePathname } from 'expo-router'
-import { View } from 'react-native'
+import { LogBox, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Toast from 'react-native-toast-message'
-
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: false,
-        shouldSetBadge: false,
-    }),
-})
-
 const queryClient = new QueryClient()
 SplashScreen.preventAutoHideAsync()
+// Disable specific warnings
+LogBox.ignoreLogs(['[Reanimated] Reading from `value` during component render'])
 
 function LayoutContent() {
     const { user, loading } = useContext(UserContext)
