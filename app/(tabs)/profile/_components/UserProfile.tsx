@@ -9,6 +9,8 @@ import { Number } from './Number'
 import { useQuery } from '@tanstack/react-query'
 import userService from '@/services/user.service'
 import { Loading } from '@/components'
+
+import LogoutButton from '@/components/LogoutButton'
 type Props = {
     userId: number
 } & React.ComponentProps<typeof View>
@@ -28,12 +30,13 @@ const UserProfile = React.memo(({ userId }: Props) => {
         <View className="bg-[#FAFAFA] flex-1">
             {/* Ads */}
             <View className="relative">
-                <TouchableOpacity
-                    onPress={() => router.push('/(share)/create_ads')}
-                    className="absolute z-20 right-[30] top-[50]"
-                >
-                    <Ads />
-                </TouchableOpacity>
+                <View className="absolute z-20 flex-row items-center justify-between w-full px-[20] pt-[60]">
+                    <TouchableOpacity onPress={() => router.push('/(share)/create_ads')}>
+                        <Ads />
+                    </TouchableOpacity>
+                    <LogoutButton />
+                </View>
+
                 <Image
                     className="w-full h-[300px] rounded-bl-[25px] rounded-br-[25px]"
                     source={{ uri: 'https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/01/anh-nen-cute.jpg' }}
