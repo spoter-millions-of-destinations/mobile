@@ -26,8 +26,9 @@ import { useNavigatHelper } from '@/hooks/useNavigateHelper'
 import { useUserLocation } from '@/hooks/useUserLocation'
 import { color } from '@/constants/Colors'
 import type { FeatureCollection, Point, GeoJsonProperties } from 'geojson'
-import FastImage from 'react-native-fast-image'
+
 Mapbox.setAccessToken(process.env.EXPO_PUBLIC_PUBLIC_KEY_MAPBOX || '')
+console.log('MAPBOX_ACCESS_TOKEN', process.env.EXPO_PUBLIC_PUBLIC_KEY_MAPBOX)
 
 // Định nghĩa các level zoom
 const LEVEL1_THRESHOLD = 10 // Dưới level này: hiển thị clusters
@@ -39,8 +40,6 @@ const PACKAGE_SIZES: Record<string, number> = {
     'Gold package': 40,
 }
 const DEFAULT_SIZE = 35
-const blurhash =
-    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj['
 
 const MapScreen = () => {
     const { data, from } = useLocalSearchParams()
@@ -49,7 +48,7 @@ const MapScreen = () => {
     const { goToSearchDestination, showPostPin, showAttractionPin } = useNavigatHelper()
     const cameraRef = useRef<Mapbox.Camera>(null)
     const [postsMap, setPostsMap] = useState<Map<number, Post[]>>(new Map())
-    const [urlMap, setUrlMap] = useState('mapbox://styles/phuocnguyen12/clz04sn5800gn01pheoolchfd')
+    const [urlMap, setUrlMap] = useState(Mapbox.StyleURL.Street)
     const [zoomLevel, setZoomLevel] = useState(0)
     const fetchedAttractionIdsRef = useRef<Set<number>>(new Set())
     // Lấy attractions
@@ -94,7 +93,7 @@ const MapScreen = () => {
                 const results = await Promise.all(
                     missing.map((a) =>
                         postService
-                            .getPostsOfAttraction(0, 100, a.id)
+                            .getPostsOfAttraction(0, 10, a.id)
                             .then((posts) => [a.id, posts] as [number, Post[]]),
                     ),
                 )
@@ -125,7 +124,7 @@ const MapScreen = () => {
                 style={{ flex: 1 }}
                 zoomEnabled={true}
                 rotateEnabled={true}
-                styleURL={Mapbox.StyleURL.Outdoors}
+                styleURL={urlMap}
                 onCameraChanged={(e) => {
                     const zoom = e.properties.zoom
                     if (zoom !== undefined) {
@@ -133,6 +132,25 @@ const MapScreen = () => {
                     }
                 }}
             >
+                <Mapbox.RasterDemSource id="mapbox-dem" url="mapbox://mapbox.terrain-rgb" tileSize={512}>
+                    <Mapbox.Terrain sourceID="mapbox-dem" exaggeration={2} />
+                </Mapbox.RasterDemSource>
+
+                {/* Optional: 3D Building Layer */}
+                <Mapbox.VectorSource id="composite" url="mapbox://mapbox.mapbox-streets-v8">
+                    <Mapbox.FillExtrusionLayer
+                        id="3d-buildings"
+                        sourceLayerID="building"
+                        minZoomLevel={0}
+                        maxZoomLevel={24}
+                        style={{
+                            fillExtrusionColor: '#aaa',
+                            fillExtrusionHeight: ['get', 'height'],
+                            fillExtrusionBase: ['get', 'min_height'],
+                            fillExtrusionOpacity: 0.6,
+                        }}
+                    />
+                </Mapbox.VectorSource>
                 <Mapbox.Images
                     images={{
                         attractionPin: PinImage,
@@ -238,33 +256,35 @@ const MapScreen = () => {
                 {/* LEVEL 3: Posts - Chỉ hiển thị khi zoom cao */}
                 {zoomLevel > LEVEL2_THRESHOLD &&
                     Array.from(postsMap.entries()).flatMap(([attractionId, posts]) =>
-                        posts.map((post) => {
-                            const uri = post.images[0]
-                            const pkg = post.attraction?.advertisingPackage?.name
-                            const size = pkg && PACKAGE_SIZES[pkg] ? PACKAGE_SIZES[pkg] : DEFAULT_SIZE
-                            const borderColor = pkg ? color[pkg] : '#fafafa'
+                        Array.isArray(posts)
+                            ? posts.map((post) => {
+                                  const uri = post.images[0]
+                                  const pkg = post.attraction?.advertisingPackage?.name
+                                  const size = pkg && PACKAGE_SIZES[pkg] ? PACKAGE_SIZES[pkg] : DEFAULT_SIZE
+                                  const borderColor = pkg ? color[pkg] : '#fafafa'
 
-                            return (
-                                <PointAnnotation
-                                    key={`post-${attractionId}-${post.id}`}
-                                    id={`post-${attractionId}-${post.id}`}
-                                    coordinate={[+post.longitude, +post.latitude]}
-                                    onSelected={() => showPostPin(post)}
-                                >
-                                    <ImageBackground
-                                        source={{ uri }}
-                                        style={{
-                                            width: size,
-                                            height: size,
-                                            borderRadius: size / 2,
-                                            overflow: 'hidden',
-                                            borderWidth: 2,
-                                            borderColor,
-                                        }}
-                                    />
-                                </PointAnnotation>
-                            )
-                        }),
+                                  return (
+                                      <PointAnnotation
+                                          key={`post-${attractionId}-${post.id}`}
+                                          id={`post-${attractionId}-${post.id}`}
+                                          coordinate={[+post.longitude, +post.latitude]}
+                                          onSelected={() => showPostPin(post)}
+                                      >
+                                          <ImageBackground
+                                              source={{ uri }}
+                                              style={{
+                                                  width: size,
+                                                  height: size,
+                                                  borderRadius: size / 2,
+                                                  overflow: 'hidden',
+                                                  borderWidth: 2,
+                                                  borderColor,
+                                              }}
+                                          />
+                                      </PointAnnotation>
+                                  )
+                              })
+                            : [],
                     )}
 
                 {userLocation && (
@@ -275,6 +295,8 @@ const MapScreen = () => {
                             animationMode="flyTo"
                             animationDuration={4000}
                             zoomLevel={16}
+                            pitch={60}
+                            heading={45}
                         />
                         <LocationPuck
                             puckBearingEnabled={true}
@@ -325,7 +347,20 @@ const MapScreen = () => {
             {/* Floating Buttons */}
             <View className="absolute z-10 flex-col gap-3 space-y-4 bottom-10 right-5">
                 <FloatingButtonComponent icon={<Save />} onPress={() => {}} />
-                <FloatingButtonComponent icon={<Navigation />} onPress={() => {}} />
+                <FloatingButtonComponent
+                    icon={<Navigation />}
+                    onPress={() => {
+                        if (cameraRef.current && userLocation) {
+                            cameraRef.current.setCamera({
+                                centerCoordinate: userLocation,
+                                zoomLevel: 16,
+                                animationDuration: 1000,
+                                pitch: 60, // nghiêng camera
+                                heading: 45, // xoay hướng camera
+                            })
+                        }
+                    }}
+                />
             </View>
         </View>
     )

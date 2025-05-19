@@ -83,7 +83,7 @@ const PostCard = ({ post }: { post: Post }) => {
     }
 
     return (
-        <View className={` mb-5 rounded-3xl overflow-hidden`}>
+        <View className={` mb-5 rounded-[30px] overflow-hidden`}>
             <View>
                 <LinearGradient
                     dither={true}
@@ -97,11 +97,7 @@ const PostCard = ({ post }: { post: Post }) => {
                         imageStyle={{ borderRadius: 24 }}
                     >
                         <View className="flex-row justify-between">
-                            <UserInfo
-                                user={user}
-                                postTime={createdAt}
-                                packageInfo={attraction?.advertisingPackage}
-                            />
+                            <UserInfo user={user} postTime={createdAt} packageInfo={attraction?.advertisingPackage} />
                             <Ionicons name="ellipsis-horizontal" size={24} color="white" />
                         </View>
                         <View className="flex-row justify-between">

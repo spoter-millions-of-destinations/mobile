@@ -69,7 +69,6 @@ const CreateAds: React.FC = () => {
             imageUrl = await fileService.uploadFile(imageToUpload)
             updateImageUrl(imageUrl)
         } catch (error) {
-            setUploading(false)
             Alert.alert('Error', 'Failed to upload image')
             return
         }
